@@ -130,7 +130,7 @@ _start:
 	cmp rax,2682					;compara valor decimal del dato de entrada con uno preestablecido ("z")
 	je .ruta2					;salto a etiqueta ruta2
 
-	cmp rax,2659					compara valor decimal del dato de entrada con uno preestablecido ("c")
+	cmp rax,2659					;compara valor decimal del dato de entrada con uno preestablecido ("c")
 	je .ruta3					;salto a etiqueta ruta3
 
 	jmp .juego					;si ninguna comparacion se cumple, se realiza salto para cerrar ciclo
