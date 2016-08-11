@@ -225,10 +225,10 @@ Imp_bloques:
 	ret
 Ini_datosbloques:
 	mov [db741],word 2608
-        mov [db741+8],word 2611
+        mov [db741+8],word 2610
 
 	mov [db852],word 2609
-        mov [db852+8],word 2617
+        mov [db852+8],word 2616
 
 	mov [db963],word 2611
         mov [db963+8],word 2612
@@ -392,75 +392,75 @@ segment .data
         tamano_p_der: equ $-p_der
 
 	;Bloque 1
-	b1: db 0x1b,"[2;3f","+",0x1b,"[2;4f","-------------",0x1b,"[2;17f","+",0x1b,"[3;3f","|",0x1b,"[3;17f","|",0x1b,"[4;3f","+",0x1b,"[4;4f","-------------",0x1b,"[4;17f","+"
+	b1: db 0x1b,"[2;2f","+",0x1b,"[2;3f","--------------",0x1b,"[2;17f","+",0x1b,"[3;2f","|",0x1b,"[3;17f","|",0x1b,"[4;2f","+",0x1b,"[4;3f","--------------",0x1b,"[4;17f","+"
 	tamano_b1: equ $-b1
 
 	;Bloque 1 borrado
-	nb1: db 0x1b,"[2;3f"," ",0x1b,"[2;4f","             ",0x1b,"[2;17f"," ",0x1b,"[3;3f"," ",0x1b,"[3;17f"," ",0x1b,"[4;3f"," ",0x1b,"[4;4f","             ",0x1b,"[4;17f"," "
+	nb1:db 0x1b,"[2;2f"," ",0x1b,"[2;3f","              ",0x1b,"[2;17f"," ",0x1b,"[3;2f"," ",0x1b,"[3;17f"," ",0x1b,"[4;2f"," ",0x1b,"[4;3f","              ",0x1b,"[4;17f"," "
         tamano_nb1: equ $-nb1
 
 	;Bloque 2
-	b2: db 0x1b,"[2;19f","+",0x1b,"[2;20f","-------------",0x1b,"[2;32f","+",0x1b,"[3;19f","|",0x1b,"[3;32f","|",0x1b,"[4;19f","+",0x1b,"[4;20f","-------------",0x1b,"[4;32f","+"
+	b2: db 0x1b,"[2;18f","+",0x1b,"[2;19f","--------------",0x1b,"[2;33f","+",0x1b,"[3;18f","|",0x1b,"[3;33f","|",0x1b,"[4;18f","+",0x1b,"[4;19f","--------------",0x1b,"[4;33f","+"
         tamano_b2: equ $-b2
 
 	;Bloque  2 borrado
-	nb2: db 0x1b,"[2;19f"," ",0x1b,"[2;20f","            ",0x1b,"[2;32f"," ",0x1b,"[3;19f"," ",0x1b,"[3;32f"," ",0x1b,"[4;19f"," ",0x1b,"[4;20f","            ",0x1b,"[4;32f"," "
+	nb2:db 0x1b,"[2;18f"," ",0x1b,"[2;19f","              ",0x1b,"[2;33f"," ",0x1b,"[3;18f"," ",0x1b,"[3;33f"," ",0x1b,"[4;18f"," ",0x1b,"[4;19f","              ",0x1b,"[4;33f"," "
         tamano_nb2: equ $-nb2
 
 	;Bloque 3
-	b3: db 0x1b,"[2;34f","+",0x1b,"[2;35f","-------------",0x1b,"[2;47f","+",0x1b,"[3;34f","|",0x1b,"[3;47f","|",0x1b,"[4;34f","+",0x1b,"[4;35f","-------------",0x1b,"[4;47f","+"
+	b3: db 0x1b,"[2;34f","+",0x1b,"[2;35f","---------------",0x1b,"[2;50f","+",0x1b,"[3;34f","|",0x1b,"[3;50f","|",0x1b,"[4;34f","+",0x1b,"[4;35f","---------------",0x1b,"[4;50f","+"
         tamano_b3: equ $-b3
 
 	;Bloque 3 borrado
-	nb3: db 0x1b,"[2;34f"," ",0x1b,"[2;35f","            ",0x1b,"[2;47f"," ",0x1b,"[3;34f"," ",0x1b,"[3;47f"," ",0x1b,"[4;34f"," ",0x1b,"[4;35f","             ",0x1b,"[4;47f"," "
+	nb3:db 0x1b,"[2;34f"," ",0x1b,"[2;35f","               ",0x1b,"[2;50f"," ",0x1b,"[3;34f"," ",0x1b,"[3;50f"," ",0x1b,"[4;34f"," ",0x1b,"[4;35f","               ",0x1b,"[4;50f"," "
         tamano_nb3: equ $-nb3
 
 	;Bloque 4
-        b4: db 0x1b,"[5;3f","+",0x1b,"[5;4f","-------------",0x1b,"[5;17f","+",0x1b,"[6;3f","|",0x1b,"[6;17f","|",0x1b,"[7;3f","+",0x1b,"[7;4f","-------------",0x1b,"[7;17f","+"
+        b4: db 0x1b,"[5;2f","+",0x1b,"[5;3f","---------------",0x1b,"[5;17f","+",0x1b,"[6;2f","|",0x1b,"[6;17f","|",0x1b,"[7;2f","+",0x1b,"[7;3f","--------------",0x1b,"[7;17f","+"
         tamano_b4: equ $-b4
 
         ;Bloque 4 borrado
-        nb4: db 0x1b,"[5;3f"," ",0x1b,"[5;4f","             ",0x1b,"[5;17f"," ",0x1b,"[6;3f"," ",0x1b,"[6;17f"," ",0x1b,"[7;3f"," ",0x1b,"[7;4f","             ",0x1b,"[7;17f"," "
+        nb4:db 0x1b,"[5;2f"," ",0x1b,"[5;3f","               ",0x1b,"[5;17f"," ",0x1b,"[6;2f"," ",0x1b,"[6;17f"," ",0x1b,"[7;2f"," ",0x1b,"[7;3f","              ",0x1b,"[7;17f"," "
         tamano_nb4: equ $-nb4
 
 	;Bloque 5
-        b5: db 0x1b,"[5;19f","+",0x1b,"[5;20f","-------------",0x1b,"[5;32f","+",0x1b,"[6;19f","|",0x1b,"[6;32f","|",0x1b,"[7;19f","+",0x1b,"[7;20f","-------------",0x1b,"[7;32f","+"
+        b5: db 0x1b,"[5;18f","+",0x1b,"[5;19f","--------------",0x1b,"[5;33f","+",0x1b,"[6;18f","|",0x1b,"[6;33f","|",0x1b,"[7;18f","+",0x1b,"[7;19f","--------------",0x1b,"[7;33f","+"
         tamano_b5: equ $-b5
 
         ;Bloque 5 borrado
-        nb5: db 0x1b,"[5;19f"," ",0x1b,"[5;20f","            ",0x1b,"[5;32f"," ",0x1b,"[6;19f"," ",0x1b,"[6;32f"," ",0x1b,"[7;19f"," ",0x1b,"[7;20f","            ",0x1b,"[7;32f"," "
+        nb5:db 0x1b,"[5;18f"," ",0x1b,"[5;19f","              ",0x1b,"[5;33f"," ",0x1b,"[6;18f"," ",0x1b,"[6;33f"," ",0x1b,"[7;18f"," ",0x1b,"[7;19f","              ",0x1b,"[7;33f"," "
         tamano_nb5: equ $-nb5
 
 	;Bloque 6
-        b6: db 0x1b,"[5;34f","+",0x1b,"[5;35f","-------------",0x1b,"[5;47f","+",0x1b,"[6;34f","|",0x1b,"[6;47f","|",0x1b,"[7;34f","+",0x1b,"[7;35f","-------------",0x1b,"[7;47f","+"
+        b6: db 0x1b,"[5;34f","+",0x1b,"[5;35f","----------------",0x1b,"[5;50f","+",0x1b,"[6;34f","|",0x1b,"[6;50f","|",0x1b,"[7;34f","+",0x1b,"[7;35f","----------------",0x1b,"[7;50f","+"
         tamano_b6: equ $-b6
 
         ;Bloque 6 borrado
-        nb6: db 0x1b,"[5;34f"," ",0x1b,"[5;35f","            ",0x1b,"[5;47f"," ",0x1b,"[6;34f"," ",0x1b,"[6;47f"," ",0x1b,"[7;34f"," ",0x1b,"[7;35f","             ",0x1b,"[7;47f"," "
+        nb6:db 0x1b,"[5;34f"," ",0x1b,"[5;35f","                ",0x1b,"[5;50f"," ",0x1b,"[6;34f"," ",0x1b,"[6;50f"," ",0x1b,"[7;34f"," ",0x1b,"[7;35f","               ",0x1b,"[7;50f"," "
         tamano_nb6: equ $-nb6
 
 	;Bloque 7
-        b7: db 0x1b,"[8;3f","+",0x1b,"[8;4f","-------------",0x1b,"[8;17f","+",0x1b,"[9;3f","|",0x1b,"[9;17f","|",0x1b,"[10;3f","+",0x1b,"[10;4f","-------------",0x1b,"[10;17f","+"
+        b7: db 0x1b,"[8;2f","+",0x1b,"[8;3f","--------------",0x1b,"[8;17f","+",0x1b,"[9;2f","|",0x1b,"[9;17f","|",0x1b,"[10;2f","+",0x1b,"[10;3f","---------------",0x1b,"[10;17f","+"
         tamano_b7: equ $-b7
 
         ;Bloque 7 borrado
-        nb7: db 0x1b,"[8;3f"," ",0x1b,"[8;4f","             ",0x1b,"[8;17f"," ",0x1b,"[9;3f"," ",0x1b,"[9;17f"," ",0x1b,"[10;3f"," ",0x1b,"[10;4f","             ",0x1b,"[10;17f"," "
+        nb7: db 0x1b,"[8;2f"," ",0x1b,"[8;3f","              ",0x1b,"[8;17f"," ",0x1b,"[9;2f"," ",0x1b,"[9;17f"," ",0x1b,"[10;2f"," ",0x1b,"[10;3f","               ",0x1b,"[10;17f"," "
         tamano_nb7: equ $-nb7
 
 	;Bloque 8
-        b8: db 0x1b,"[8;19f","+",0x1b,"[8;20f","-------------",0x1b,"[8;32f","+",0x1b,"[9;19f","|",0x1b,"[9;32f","|",0x1b,"[10;19f","+",0x1b,"[10;20f","-------------",0x1b,"[10;32f","+"
+        b8: db 0x1b,"[8;18f","+",0x1b,"[8;19f","--------------",0x1b,"[8;33f","+",0x1b,"[9;18f","|",0x1b,"[9;33f","|",0x1b,"[10;18f","+",0x1b,"[10;19f","--------------",0x1b,"[10;33f","+"
         tamano_b8: equ $-b8
 
         ;Bloque 8 borrado
-        nb8: db 0x1b,"[8;19f"," ",0x1b,"[8;20f","            ",0x1b,"[8;32f"," ",0x1b,"[9;19f"," ",0x1b,"[9;32f"," ",0x1b,"[10;19f"," ",0x1b,"[10;20f","            ",0x1b,"[10;32f"," "
+        nb8: db 0x1b,"[8;18f"," ",0x1b,"[8;19f","              ",0x1b,"[8;33f"," ",0x1b,"[9;18f"," ",0x1b,"[9;33f"," ",0x1b,"[10;18f"," ",0x1b,"[10;19f","              ",0x1b,"[10;33f"," "
         tamano_nb8: equ $-nb8
 
 	;Bloque 9
-        b9: db 0x1b,"[8;34f","+",0x1b,"[8;35f","-------------",0x1b,"[8;47f","+",0x1b,"[9;34f","|",0x1b,"[9;47f","|",0x1b,"[10;34f","+",0x1b,"[10;35f","-------------",0x1b,"[10;47f","+"
+        b9: db 0x1b,"[8;34f","+",0x1b,"[8;35f","---------------",0x1b,"[8;50f","+",0x1b,"[9;34f","|",0x1b,"[9;50f","|",0x1b,"[10;34f","+",0x1b,"[10;35f","---------------",0x1b,"[10;50f","+"
         tamano_b9: equ $-b9
 
         ;Bloque 9 borrado
-        nb9: db 0x1b,"[8;34f"," ",0x1b,"[8;35f","            ",0x1b,"[8;47f"," ",0x1b,"[9;34f"," ",0x1b,"[9;47f"," ",0x1b,"[10;34f"," ",0x1b,"[10;35f","             ",0x1b,"[10;47f"," "
+        nb9: db 0x1b,"[8;34f"," ",0x1b,"[8;35f","               ",0x1b,"[8;50f"," ",0x1b,"[9;34f"," ",0x1b,"[9;50f"," ",0x1b,"[10;34f"," ",0x1b,"[10;35f","               ",0x1b,"[10;50f"," "
         tamano_nb9: equ $-nb9
 
 
@@ -532,9 +532,9 @@ _start:
 	in_teclado nombre,10				; espera datos del usuario
 
 	mov [buffer1],word 2610
-        mov [buffer2],word 2614
-        mov [buffer3],word 2610
-        mov [buffer4],word 2613
+        mov [buffer2],word 2612
+        mov [buffer3],word 2611
+        mov [buffer4],word 2616
 	mov r8,[buffer1]
         mov r9,[buffer2]
         mov r10,[buffer3]
@@ -548,10 +548,11 @@ _start:
 	ir r8,r9,r10,r12
 	print bola,tamano_bola
 
+
 	mov [buffer],word 0				;establecimiento de direccion lateral inicial
 	jmp .sube					;salto para que empiece a subir la bola
 .baja:
-	mov r14,120000000
+	mov r14,70000000
 .unidadesFb1:
         dec r14
 	cmp r14,0
@@ -606,14 +607,14 @@ _start:
 	je .g
 	jmp .s
 .g:
-	cmp r9,2617			;salto a funcion de subir bola por estar en los limites
+	cmp r9,2614			;salto a funcion de subir bola por estar en los limites
 	je .sube
 .s:
 	jmp .baja
 
 
 .sube:
-        mov r14,100000000
+        mov r14,50000000
 .unidadesFs2:
         dec r14
         cmp r14,0
@@ -650,7 +651,7 @@ _start:
 	jmp .sal4
 .compunider2:
         cmp r12,2608
-	mov [buffer],word 0			;r13 se usa como variable de estado para determinar si moverse hacia izquierda o derecha
+	mov [buffer],word 0			;la variable buffer se usa como variable de estado para determinar si moverse hacia izquierda o derecha
 	jmp .sal4
 .sal3:
 	mov [buffer],word 1
@@ -661,28 +662,20 @@ _start:
         mov [buffer3],r10
         mov [buffer4],r12
 
-	cmp r8,2609                             ;comparacion de limite respectoa bloques 7,8 y 9
-        je .bordebloque789
-        jmp .limiteup
-.bordebloque789:
+
+
+	cmp r8,2609                             ;comparacion de limite respecto a bloques 7,8 y 9
+        je .bordebloque7
+        jmp .compb456
+.bordebloque7:
         cmp r9,2609
-	je .comprobarchoque789
-	jmp .nochoque
-
-.comprobarchoque789:
-	cmp word [cb+48],1
 	je .comprobarchoque7
-	cmp word [cb+56],1
-	je .comprobarchoque8
-	cmp word [cb+64],1
-	je .comprobarchoque9
-	jmp .nochoque
-
-
-
+	jmp .compb456
 
 .comprobarchoque7:
-        mov r13,15
+	cmp word [cb+48],0
+	je .comprobarchoque8
+	mov r13,16
 	mov r14,[db741]
         mov r15,[db741+8]
 .c7:
@@ -706,16 +699,16 @@ _start:
         dec r13
         cmp r13,0
 	jne .c7
-        jmp .comprobarchoque789
+        jmp .comprobarchoque8
 .destruir7:
-	print bola2,bola2len
         mov [cb+48],word 0
 	call Destruirbloques
-	jmp .limiteup
 
 
 .comprobarchoque8:
-	mov r13,15
+	cmp word [cb+56],0
+        je .comprobarchoque9
+	mov r13,16
         mov r14,[db852]
         mov r15,[db852+8]
 .c8:
@@ -739,16 +732,16 @@ _start:
         dec r13
         cmp r13,0
         jne .c8
-        jmp .comprobarchoque789
+        jmp .comprobarchoque9
 .destruir8:
-	print bola2,bola2len
         mov [cb+56],word 0
         call Destruirbloques
-        jmp .limiteup
 
 
 .comprobarchoque9:
-	mov r13,15
+	cmp word [cb+64],0
+        je .compb456
+	mov r13,17
         mov r14,[db963]
         mov r15,[db963+8]
 .c9:
@@ -772,12 +765,231 @@ _start:
         dec r13
         cmp r13,0
         jne .c9
-	jmp .comprobarchoque789
+	jmp .compb456
 .destruir9:
-	print bola2,bola2len
         mov [cb+64],word 0
         call Destruirbloques
-        jmp .limiteup
+
+
+
+;----------------------------
+.compb456:
+	cmp r8,2608                             ;comparacion de limite respecto a bloques 4,5 y 6
+        je .bordebloque4
+        jmp .compb123
+.bordebloque4:
+        cmp r9,2616
+	je .comprobarchoque4
+	jmp .compb123
+
+.comprobarchoque4:
+	cmp word [cb+24],0
+	je .comprobarchoque5
+	mov r13,16
+	mov r14,[db741]
+        mov r15,[db741+8]
+.c4:
+        cmp r12,r15
+        je .verifdecenas4
+        jmp .aumdatos4
+.verifdecenas4:
+        cmp r10,r14
+        je .destruir4
+
+.aumdatos4:
+	cmp r15,2617
+        je .aumdec4
+        inc r15
+        jmp .verc4
+
+.aumdec4:
+ 	mov r15,2608
+        inc r14
+.verc4:
+        dec r13
+        cmp r13,0
+	jne .c4
+        jmp .comprobarchoque5
+.destruir4:
+        mov [cb+24],word 0
+	call Destruirbloques
+
+
+.comprobarchoque5:
+	cmp word [cb+32],0
+        je .comprobarchoque6
+	mov r13,16
+        mov r14,[db852]
+        mov r15,[db852+8]
+.c5:
+        cmp r12,r15
+        je .verifdecenas5
+        jmp .aumdatos5
+.verifdecenas5:
+        cmp r10,r14
+        je .destruir5
+
+.aumdatos5:
+        cmp r15,2617
+        je .aumdec5
+        inc r15
+        jmp .verc5
+
+.aumdec5:
+        mov r15,2608
+        inc r14
+.verc5:
+        dec r13
+        cmp r13,0
+        jne .c5
+        jmp .comprobarchoque6
+.destruir5:
+        mov [cb+32],word 0
+        call Destruirbloques
+
+
+.comprobarchoque6:
+	cmp word [cb+40],0
+        je .compb123
+	mov r13,17
+        mov r14,[db963]
+        mov r15,[db963+8]
+.c6:
+        cmp r12,r15
+        je .verifdecenas6
+        jmp .aumdatos6
+.verifdecenas6:
+        cmp r10,r14
+        je .destruir6
+
+.aumdatos6:
+        cmp r15,2617
+        je .aumdec6
+        inc r15
+        jmp .verc6
+
+.aumdec6:
+        mov r15,2608
+        inc r14
+.verc6:
+        dec r13
+        cmp r13,0
+        jne .c6
+	jmp .compb123
+.destruir6:
+        mov [cb+40],word 0
+        call Destruirbloques
+
+
+
+;----------------------------
+.compb123:
+	cmp r8,2608                             ;comparacion de limite respecto a bloques 1,2 y 3
+        je .bordebloque1
+        jmp .nochoque
+.bordebloque1:
+        cmp r9,2613
+	je .comprobarchoque1
+	jmp .nochoque
+
+.comprobarchoque1:
+	cmp word [cb],0
+	je .comprobarchoque2
+	mov r13,16
+	mov r14,[db741]
+        mov r15,[db741+8]
+.c1:
+        cmp r12,r15
+        je .verifdecenas1
+        jmp .aumdatos1
+.verifdecenas1:
+        cmp r10,r14
+        je .destruir1
+
+.aumdatos1:
+	cmp r15,2617
+        je .aumdec1
+        inc r15
+        jmp .verc1
+
+.aumdec1:
+ 	mov r15,2608
+        inc r14
+.verc1:
+        dec r13
+        cmp r13,0
+	jne .c1
+        jmp .comprobarchoque2
+.destruir1:
+        mov [cb],word 0
+	call Destruirbloques
+
+
+.comprobarchoque2:
+	cmp word [cb+8],0
+        je .comprobarchoque3
+	mov r13,16
+        mov r14,[db852]
+        mov r15,[db852+8]
+.c2:
+        cmp r12,r15
+        je .verifdecenas2
+        jmp .aumdatos2
+.verifdecenas2:
+        cmp r10,r14
+        je .destruir2
+
+.aumdatos2:
+        cmp r15,2617
+        je .aumdec2
+        inc r15
+        jmp .verc2
+
+.aumdec2:
+        mov r15,2608
+        inc r14
+.verc2:
+        dec r13
+        cmp r13,0
+        jne .c2
+        jmp .comprobarchoque3
+.destruir2:
+        mov [cb+8],word 0
+        call Destruirbloques
+
+
+.comprobarchoque3:
+	cmp word [cb+16],0
+        je .nochoque
+	mov r13,17
+        mov r14,[db963]
+        mov r15,[db963+8]
+.c3:
+        cmp r12,r15
+        je .verifdecenas3
+        jmp .aumdatos3
+.verifdecenas3:
+        cmp r10,r14
+        je .destruir3
+
+.aumdatos3:
+        cmp r15,2617
+        je .aumdec3
+        inc r15
+        jmp .verc3
+
+.aumdec3:
+        mov r15,2608
+        inc r14
+.verc3:
+        dec r13
+        cmp r13,0
+        jne .c3
+	jmp .nochoque
+.destruir3:
+        mov [cb+16],word 0
+        call Destruirbloques
+
 
 
 
