@@ -43,39 +43,39 @@
 .compiz:
 	cmp %1,48
 	je .compiz1
-	jmp .bajarizq
+	jmp .movizq
 .compiz1:
 	cmp %2,50
 	je _start.juego
-	jmp .bajarizq 
+	jmp .movizq 
 .compder:
 	cmp %1, 52
 	je .compder1
-	jmp .bajarder
+	jmp .movder
 
 .compder1:
 	cmp %2,52
 	je _start.juego
-	jmp .bajarder
+	jmp .movder
 
-.bajarizq:                      	;movimiento horizontal izquierdo
+.movizq:                      	;movimiento horizontal izquierdo
         cmp %2,48
-        je .decCsizq1
+        je .restarizq
         dec %2
-        jmp .sal0
-.decCsizq1:
+        jmp .salida
+.restarizq:
         mov %2,57
         cmp %1,48
-        je .sal0
+        je .salida
         dec %1
-        jmp .sal0
+        jmp .salida
 
-.bajarder:                      	;movimiento horizontal derecho
+.movder:                      	;movimiento horizontal derecho
         cmp %2,57
-        je .decCsder1
+        je .restarder
         inc %2
-        jmp .sal0
-.decCsder1:
+        jmp .salida
+.restarder:
         mov %2,48
         inc %1
 %endmacro
@@ -219,6 +219,8 @@ segment .bss
 	nombre: resb 10
 	let: resb 2
 	contador: resb 8
+	unidades: resb 8
+	decenas: resb 8
 
 ;--------------------------CODIGO PRINCIPAL------------------------------------
 
@@ -228,13 +230,17 @@ segment .text
 _start:
 	;inicializando registros
 
-	mov r14,50
+	mov r14,50 : posicion inicial
         mov r15,51
+	mov qword [decenas],r14
+	mov qword [unidades],r15
 
 
 	;---------Creacion de limites del juego
 
 	call Imp_limites				;imprime limites del juego
+	mov r14,qword [decenas]
+	mov r15,qword [unidades]
 	mover r14,r15
 	print barra,tamano_barra
 
@@ -242,37 +248,48 @@ _start:
 	call echo_off					;Apaga el echo
 
 	mov qword [contador],10000000
+
+.pausa:
+	mov word [let],1				;Limpia variable let
+	in_teclado let,1				;Copia, de ser posible, la tecla que se este presionando en [let]
+	cmp word [let],120				;Compara si la letra presionada es "x"
+	jne .pausa					;De no ser "x" el juego sigue en pausa
+	jmp .juego					;En el caso contrario se regresa al juego
+
 .juego:
-	sub qword [contador],1
-	cmp qword [contador],0
-	jne .juego
+	sub qword [contador],1				;Bucle que limita la velocidad a la cual se mueve el juego
+	cmp qword [contador],0				;Hasta que [contador] sea 0 el sistema se detiene
+	jne .juego					;Luego de esto se regresa al juego por una instruccion
 _rev:
 
-	mov word [let],1
-	mov qword [contador],10000000
+	mov word [let],1				;Limpia el contenido de [let]
+	mov qword [contador],10000000			;Reinicia el contador
 
-	mov rax,0
-	mov rdi,0
-	mov rsi,let
-	mov rdx,1
-	syscall
+	in_teclado let,1				;Copia, de ser posible, la tecla que se este presionando en [let]
 
-	cmp word [let], 97
-        je .fin
-	movlateral r14,r15, word [let]	;"macro de calculo de movimiento lateral"
-	jmp _start.juego
+	cmp word [let], 97				;Compara si la letra presionada es "a"
+        je .fin						;De ser verdadero salta al final del juego
+	cmp word [let], 120				;Compara si la letra presionada es "x"
+	je _start.pausa					;De ser verdadero salta al punto de pausa
 
-.sal0:
+	mov r14,qword [decenas]				;Se actualiza el valor del buffer decenas
+	mov r15,qword [unidades]			;Se actualiza el valor del buffer unidades
+	movlateral r14,r15, word [let]			;"macro de calculo de movimiento lateral"
+	mov qword [decenas],r14				;Se guarda el nuevo valor del buffer decenas
+	mov qword [unidades],r15			;Se guarda el nuevo valor del buffer unidades
+	jmp _start.juego				;Vuelve al ciclo principal del juego
+
+.salida:
         ;posicion del cursor final para imprimir"r8 y r9 fijos"
-	print nobarra,tam1
-	mover r14,r15
-        print barra,tamano_barra
-	jmp _start.juego
+	mov qword [decenas],r14				;Se guarda el nuevo valor del buffer decenas
+        mov qword [unidades],r15			;Se guarda el nuevo valor del buffer unidades
+	print nobarra,tam1				;Borra el espacio donde ya no se encuentra la barra
+	mover r14,r15					;Se mueve el cursor a la nueva posicion de la barra
+        print barra,tamano_barra			;Se imprime la nueva barra
+	jmp _start.juego				;Vuelve al ciclo principal del juego
 .fin:
-	call canonical_on
-	call echo_on
+	call canonical_on				;Se vuelve a encender el modo canonico
+	call echo_on					;Se vuelve a encender el echo
 	mov rax,60
 	mov rdi,0
-	syscall
-
-
+	syscall						;Cierre del programa
