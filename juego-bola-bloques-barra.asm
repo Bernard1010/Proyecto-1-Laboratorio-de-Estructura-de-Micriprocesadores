@@ -224,43 +224,47 @@
         je .compiz
 	jmp .movbarrafull1
 .compiz:
-	cmp %1,48
+	cmp %1,2608
 	je .compiz1
 	jmp .movizq
 .compiz1:
-	cmp %2,50
+	cmp %2,2611
 	je .movbarrafull1
 	jmp .movizq
-.compder:
-	cmp %1, 52
+ .compder:
+	cmp %1,2612
 	je .compder1
 	jmp .movder
 
 .compder1:
-	cmp %2,52
+	cmp %2,2610
 	je .movbarrafull1
 	jmp .movder
 
 .movizq:                      	;movimiento horizontal izquierdo
-        cmp %2,48
+        cmp %2,2608
         je .restarizq
         dec %2
-        jmp .updatebarraA
+	cmp %2,2608
+        je .restarizq
+        dec %2
+	jmp .updatebarraA
 .restarizq:
-        mov %2,57
-        cmp %1,48
+        mov %2,2617
+        cmp %1,2608
         je .updatebarraA
         dec %1
         jmp .updatebarraA
-
-
 .movder:                      	;movimiento horizontal derecho
-        cmp %2,57
+        cmp %2,2617
+        je .restarder
+        inc %2
+	cmp %2,2617
         je .restarder
         inc %2
         jmp .updatebarraA
 .restarder:
-        mov %2,48
+        mov %2,2608
         inc %1
 %endmacro
 
@@ -278,42 +282,49 @@
         je .compizb
 	jmp .movbarrafull2
 .compizb:
-	cmp %1,48
+	cmp %1,2608
 	je .compiz1b
 	jmp .movizqb
 .compiz1b:
-	cmp %2,50
+	cmp %2,2611
 	je .movbarrafull2
 	jmp .movizqb
 .compderb:
-	cmp %1, 52
+	cmp %1,2612
 	je .compder1b
 	jmp .movderb
 
 .compder1b:
-	cmp %2,52
+	cmp %2,2610
 	je .movbarrafull2
 	jmp .movderb
 
 .movizqb:                      	;movimiento horizontal izquierdo
-        cmp %2,48
+        cmp %2,2608
         je .restarizqb
         dec %2
-        jmp .updatebarraB
+	cmp %2,2608
+        je .restarizqb
+        dec %2
+	jmp .updatebarraB
 .restarizqb:
-        mov %2,57
+        mov %2,2617
         cmp %1,48
         je .updatebarraB
         dec %1
         jmp .updatebarraB
 
 .movderb:                      	;movimiento horizontal derecho
-        cmp %2,57
+        cmp %2,2617
         je .restarderb
         inc %2
+	cmp %2,2617
+        je .restarderb
+        inc %2
+
         jmp .updatebarraB
 .restarderb:
-        mov %2,48
+        mov %2,2608
         inc %1
 %endmacro
 
@@ -494,8 +505,8 @@ canonical_on:
         ;Este proceso reactiva el modo canonico del sistema
 
         or dword [termios+12], ICANON 	  ;Se restablece el valor del parametro de modo canonico
-	mov byte[termios+CC+VTIME], 0     ;Ponemos el tiempo de espera a 0
-    	mov byte[termios+CC+VMIN], 1      ;Ponemos la cantidad mínima de bits a 1
+	;mov byte[termios+CC+VTIME], 0     ;Ponemos el tiempo de espera a 0
+    	;mov byte[termios+CC+VMIN], 1      ;Ponemos la cantidad mínima de bits a 1
 
         call write_stdin_termios ;Este proceso actualiza el valor del termios
         ret
@@ -524,12 +535,21 @@ write_stdin_termios:
 
         ;Este proceso escribe datos en el termios
 
+	push rax
+	push rbx
+	push rcx
+	push rdx
+
         mov eax, 36h		;interrupcion para modificar el termios
         mov ebx, stdin		;ubicacion del stdin
         mov ecx, 5402h		;ubicacion del termios dentro del stdin
         mov edx, termios	;valor actualizado que queremos usar en el termios
         int 80h			;interrupcion de 32 bits
 
+	pop rax
+        pop rbx
+        pop rcx
+        pop rdx
         ret
 
 Pausa:
@@ -548,6 +568,10 @@ segment .data
 	tamano_barra: equ $-barra
 	nobarra:db 0x1b,"[26;2f", "                                                 "
 	tam1: equ $-nobarra
+
+	nobarra0:db 0x1b,"[29;2f", "                                                 "
+        lennobarra0: equ $-nobarra0
+
 
 	vfila: db "     "		;variable para almacenar codigos de ejecucion
         vfila_len: equ $-vfila
@@ -663,6 +687,22 @@ segment .data
 	msm_bienvenida: db 0x1b,"[46;30m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[9;15f","Bienvenido a Micronoid",0x1b,"[11;4f","EL-4313-Lab. Estructura de Microprocesadores",0x1b,"[13;21f","2S-2016",0x1b,"[15;11f","Ingrese el nombre del jugador:"
 	tamano_msm_bienvenida: equ $-msm_bienvenida
 
+	;Mensaje para iniciar juego
+	msm_seguirjuego: db 0x1b,"[20;14f","Presione X para continuar"
+	tamano_msm_seguirjuego: equ $-msm_seguirjuego
+
+	;Mensaje para perdida de vidas
+	msm_pierdevida: db 0x1b,"[15;13f","Intento Fallido → Pierde → ♥"
+	tamano_msm_pierdevida: equ $-msm_pierdevida
+
+	;Mensaje para perdida de vidas vacio
+        msm_npierdevida: db 0x1b,"[15;12f","                            "
+        tamano_msm_npierdevida: equ $-msm_npierdevida
+
+	;Mensaje para iniciar juego
+        msm_noseguirjuego: db 0x1b,"[20;14f","                         "
+        tamano_msm_noseguirjuego: equ $-msm_noseguirjuego
+
 	;Reestable colores de letra y fondo y reinicio de consola
 	color_set_normal: db 0x1b,"[1;1f",0x1b,"[40;37m",0x1b, "[J"
 	tamano_color_set_normal: equ $-color_set_normal:
@@ -670,7 +710,22 @@ segment .data
 	bola2: db "B"
 	bola2len: equ $-bola2
 
-	bola: db "☼" 					;bola
+	;mensaje de vida
+	vida: db 0x1b,"[32;2f","VIDAS → "
+        tamano_vida: equ $-vida
+
+
+	;Simbolos de la cantidad de vida
+	vida3: db 0x1b,"[32;10f","♥ ♥ ♥"
+	tamano_vida3: equ $-vida3
+
+	vida2: db 0x1b,"[32;10f","♥ ♥  "
+        tamano_vida2: equ $-vida2
+
+	vida1: db 0x1b,"[32;10f","♥   "
+        tamano_vida1: equ $-vida1
+
+	bola: db "○" 					;bola
 	tamano_bola: equ $-bola
 
 	nbola: db " "					;no bola
@@ -727,6 +782,7 @@ segment .bss
 	unidades: resb 8
 	decenas: resb 8
 
+	vidas: resb 8
 
 ;--------------------------CODIGO PRINCIPAL------------------------------------
 
@@ -743,13 +799,13 @@ _start:
 
 
 	;INICIALIZACION DE VARIABLES Y REGISTROS
-	mov qword [decenas],50
-	mov qword [unidades],51
+	mov qword [decenas],2610
+	mov qword [unidades],2610
 
 	mov [buffer1],word 2610
-        mov [buffer2],word 2612
+        mov [buffer2],word 2610
         mov [buffer3],word 2611
-        mov [buffer4],word 2612
+        mov [buffer4],word 2613
 	mov r8,[buffer1]
         mov r9,[buffer2]
         mov r10,[buffer3]
@@ -759,7 +815,7 @@ _start:
 	call Imp_bloques				;imprime bloques del juego
 	call Ini_datosbloques
 	call Setbloques
-
+	mov word [vidas],0
 
 	mov r14,qword [decenas]				;posicion inicial de la barra
 	mov r15,qword [unidades]
@@ -769,14 +825,43 @@ _start:
 	call canonical_off				;Apaga el modo canonico
 	call echo_off					;Apaga el echo
 
-	irs 2610,2612,2611,2612
+	irs 2610,2610,2611,2613
 	print bola,tamano_bola
-;------------------------------------------------------------------------------------------------------
-	call Pausa
 
+	irs 2611,2610,2612,2608
+        print nombre,10
+
+	print vida,tamano_vida
+	print vida3,tamano_vida3
+
+;------------------------------------------------------------------------------------------------------
+	print msm_seguirjuego,tamano_msm_seguirjuego
+	call Pausa
+	print msm_noseguirjuego,tamano_msm_noseguirjuego
 	mov [buffer],word 0				;establecimiento de direccion lateral inicial
 	jmp .sube					;salto para que empiece a subir la bola
 
+.ciclovidas:
+	mov qword [decenas],2610
+        mov qword [unidades],2611
+
+        mov [buffer1],word 2610
+        mov [buffer2],word 2610
+        mov [buffer3],word 2611
+        mov [buffer4],word 2613
+        mov r8,[buffer1]
+        mov r9,[buffer2]
+        mov r10,[buffer3]
+        mov r12,[buffer4]
+
+	mov r14,qword [decenas]                         ;posicion inicial de la barra
+        mov r15,qword [unidades]
+	mover r14,r15
+        print barra,tamano_barra
+
+	irs 2610,2610,2611,2613
+        print bola,tamano_bola
+	jmp .sube
 
 .baja:
 	cmp word [bdestruidos],9
@@ -787,23 +872,20 @@ _start:
 	cmp r14,0
         jne .unidadesFb1
 
-
-
 	mov word [let],1				;Limpia el contenido de [let]
 	in_teclado let,1				;Copia, de ser posible, la tecla que se este presionando en [let]
 
-	;cmp word [let], 97				;Compara si la letra presionada es "a"
-        ;je .fin
 	cmp word [let], 120				;Compara si la letra presionada es "x"
 	jne .continuar1					;De ser verdadero salta al punto de pausa
-	call Pausa
+
+	print msm_seguirjuego,tamano_msm_seguirjuego
+        call Pausa
+        print msm_noseguirjuego,tamano_msm_noseguirjuego
 .continuar1:
 
 	mov r14,qword [decenas]				;Se actualiza el valor del buffer decenas
 	mov r15,qword [unidades]			;Se actualiza el valor del buffer unidades
 	movbarraBAJ r14,r15, word [let]			;"macro de calculo de movimiento lateral"
-	;mov qword [decenas],r14				;Se guarda el nuevo valor del buffer decenas
-	;mov qword [unidades],r15			;Se guarda el nuevo valor del buffer unidades
 
 .updatebarraA:
 	mov qword [decenas],r14				;Se guarda el nuevo valor del buffer decenas
@@ -817,11 +899,6 @@ _start:
 	mov qword [decenas],r14                         ;Se guarda el nuevo valor del buffer decenas
         mov qword [unidades],r15
 
-
-
-
-
-
 	mov r8,[buffer1]
         mov r9,[buffer2]
         mov r10,[buffer3]
@@ -833,7 +910,11 @@ _start:
 	movlateralBAJ r10,r12,[buffer]	;macro de calculo de movimiento lateral(Bajada)
 .movlateralfull1:
 
-	cmp r9,2617			;movimiento de bajada
+
+
+	;Movimiento de bajada
+
+	cmp r9,2617
 	je .decenasFb1
 	inc r9
 	jmp .sal0
@@ -867,14 +948,91 @@ _start:
         mov [buffer4],r12
 
 
-	cmp r8,2610			;comparacion de limite inferior
-	je .g
-	jmp .s
-.g:
-	cmp r9,2613				;salto a funcion de subir bola por estar en los limites
-	je .sube
-.s:
+;comprobacion de choque con barra
+
+	cmp r8,2610
+        je .bordebarra
+        jmp .limiteinferior
+.bordebarra:
+        cmp r9,2613
+	je .comprobarra
+	jmp .limiteinferior
+
+.comprobarra:
+	mov r13,10
+	mov r14,[decenas]
+        mov r15,[unidades]
+.revisarbarra:
+        cmp r12,r15
+        je .verifbarra
+        jmp .aumdatos
+.verifbarra:
+        cmp r10,r14
+        je .sube
+
+.aumdatos:
+	cmp r15,2617
+        je .aumdec
+        inc r15
+        jmp .verificardec
+.aumdec:
+ 	mov r15,2608
+        inc r14
+.verificardec:
+        dec r13
+        cmp r13,0
+	jne .revisarbarra
+
+.limiteinferior:
+	cmp r8,2610				;comparacion de limite inferior
+	je .limitebajo
+	jmp .seguir
+.limitebajo:
+	cmp r9,2617				;salto a funcion de subir bola por estar en los limites
+	je .menosvida
+	jmp .seguir
+
+.menosvida:					;Se pierde una vida
+	inc word [vidas]
+	cmp word [vidas],3
+	je .fin
+	cmp word [vidas],1
+	je .2vidasrestantes
+	cmp word [vidas],2
+        je .1vidasrestantes
+
+.2vidasrestantes:
+	call Imp_bloques
+	call Setbloques
+	print nobarra,tam1
+	print nobarra0,lennobarra0
+	print msm_pierdevida,tamano_msm_pierdevida
+	print msm_seguirjuego,tamano_msm_seguirjuego
+	print vida2,tamano_vida2
+        call Pausa
+	print msm_npierdevida,tamano_msm_npierdevida
+        print msm_noseguirjuego,tamano_msm_noseguirjuego
+	jmp .ciclovidas
+
+.1vidasrestantes:
+        call Imp_bloques
+        call Setbloques
+	print nobarra,tam1
+        print nobarra0,lennobarra0
+	print msm_pierdevida,tamano_msm_pierdevida
+	print vida1,tamano_vida1
+        print msm_seguirjuego,tamano_msm_seguirjuego
+        call Pausa
+	print msm_npierdevida,tamano_msm_npierdevida
+        print msm_noseguirjuego,tamano_msm_noseguirjuego
+	jmp .ciclovidas
+
+.seguir:
 	jmp .baja
+
+
+
+
 
 
 .sube:
@@ -886,14 +1044,16 @@ _start:
 
 
 
-	 mov word [let],1                                ;Limpia el contenido de [let]
+	mov word [let],1                                ;Limpia el contenido de [let]
         in_teclado let,1                                ;Copia, de ser posible, la tecla que se este presionando en [let]
 
         ;cmp word [let], 97                             ;Compara si la letra presionada es "a"
         ;je .fin
         cmp word [let], 120                             ;Compara si la letra presionada es "x"
         jne .continuar2                                 ;De ser verdadero salta al punto de pausa
+	print msm_seguirjuego,tamano_msm_seguirjuego
         call Pausa
+        print msm_noseguirjuego,tamano_msm_noseguirjuego
 .continuar2:
 
         mov r14,qword [decenas]                         ;Se actualiza el valor del buffer decenas
@@ -1294,10 +1454,6 @@ _start:
 	inc word [bdestruidos]
         mov [cb+16],word 0
         call Destruirbloques
-
-
-
-
 
 
 .nochoque:
