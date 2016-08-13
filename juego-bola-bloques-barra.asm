@@ -42,6 +42,7 @@
         print vp,vplen
 %endmacro
 
+;macro para mover la bola lateralmente mientras baja en la pantalla
 %macro movlateralBAJ 3
 	mov r13,%3
 	cmp r13,1                        ;comparacion de estado de r13 para saber si continuar moviendose en alguna direccion lateral
@@ -69,12 +70,13 @@
         inc %1
 %endmacro
 
-%macro movlateralSUB 3			;macro de calculo lateral para movimiento de bajada 
+;macro para movimiento lateral de bola minetras se mueve hacia arriba
+%macro movlateralSUB 3				;macro de calculo lateral para movimiento de bajada 
 	mov r13,%3
-	cmp r13,1                        ;comparacion de estado de r13 para saber a donde moverse
+	cmp r13,1                        	;comparacion de estado de r13 para saber a donde moverse
         je .subirderecha
         jmp .subirizquierda
-.subirizquierda:                      	;movimiento horizontal izquierdo
+.subirizquierda:                      		;movimiento horizontal izquierdo
         cmp %2,2608
         je .decCsizquierda2
         dec %2
@@ -85,121 +87,17 @@
         je .movlateralfull2
         dec %1
         jmp .movlateralfull2
-.subirderecha:                      	;movimiento horizontal derecho
+.subirderecha:                      		;movimiento horizontal derecho
         cmp %2,2617
         je .decCsderecha2
         inc %2
-        jmp .movlateralfull2
+        jmp .movlateralfull2			;moviimineto de desplazamiento lateral completado
 .decCsderecha2:
         mov %2,2608
         inc %1
 %endmacro
 
-
-%macro compchoque7 6
-        cmp word %5,0			;comprobacion del estado del bloque -destruido o no destruido
-        je .nochoque			; si es 0 el estado no debe ocurrir colision con bola
-
-        mov r13,15
-        mov r14,%3
-        mov r15,%4
-.c7:
-        cmp %2,r15
-        je .verifdecenas7
-        jmp .aumdatos7
-.verifdecenas7:
-        cmp %1,r14
-        je .destruir7
-
-.aumdatos7:
-        cmp r15,2617
-        je .aumdec7
-        inc r15
-        jmp .verc7
-
-.aumdec7:
-        mov r15,2608
-        inc r14
-.verc7:
-        dec r13
-        cmp r13,0
-        jne .c7
-	jmp .%6
-.destruir7:
-	mov %5,word 0
-
-%endmacro
-
-
-%macro compchoque8 6
-        cmp word %5,0			;comprobacion del estado del bloque -destruido o no destruido
-        je .nochoque			; si es 0 el estado no debe ocurrir colision con bola
-
-        mov r13,15
-        mov r14,%3
-        mov r15,%4
-.c8:
-        cmp %2,r15
-        je .verifdecenas8
-        jmp .aumdatos8
-.verifdecenas8:
-        cmp %1,r14
-        je .destruir8
-
-.aumdatos8:
-        cmp r15,2617
-        je .aumdec8
-        inc r15
-        jmp .verc8
-
-.aumdec8:
-        mov r15,2608
-        inc r14
-.verc8:
-        dec r13
-        cmp r13,0
-        jne .c8
-	jmp .%6
-.destruir8:
-	mov %5,word 0
-
-%endmacro
-
-
-%macro compchoque9 6
-        cmp word %5,0                   ;comprobacion del estado del bloque -destruido o no destruido
-        je .nochoque                    ; si es 0 el estado no debe ocurrir colision con bola
-
-        mov r13,15
-        mov r14,%3
-        mov r15,%4
-.c9:
-        cmp %2,r15
-        je .verifdecenas9
-        jmp .aumdatos9
-.verifdecenas9:
-        cmp %1,r14
-        je .destruir9
-
-.aumdatos9:
-        cmp r15,2617
-        je .aumdec9
-        inc r15
-        jmp .verc9
-
-.aumdec9:
-        mov r15,2608
-        inc r14
-.verc9:
-        dec r13
-        cmp r13,0
-        jne .c9
-        jmp .%6
-.destruir9:
-        mov %5,word 0
-%endmacro
-
-%macro mover 2			;Macro de posicionamiento del cursor
+%macro mover 2					;Macro de posicionamiento del cursor especial para el movimiento de la barra
  	mov [vp+0],word 0x1b
         mov [vp+1],word 0xa5b
         mov [vp+2],word 2610
@@ -214,9 +112,8 @@
 
 
 %macro movbarraBAJ 3
-
-	;macro de calculo lateral para movimiento de bajada
-        cmp %3,99                        ;comparacion de estado de r13 para saber si continuar moviendose en alguna direccion lateral
+						;macro de calculo lateralde la barra  para movimiento de bajada de la bola
+        cmp %3,99
         je .compder
 	jmp .compararz
 .compararz:
@@ -241,7 +138,7 @@
 	je .movbarrafull1
 	jmp .movder
 
-.movizq:                      	;movimiento horizontal izquierdo
+.movizq:                      			;movimiento horizontal izquierdo
         cmp %2,2608
         je .restarizq
         dec %2
@@ -255,7 +152,7 @@
         je .updatebarraA
         dec %1
         jmp .updatebarraA
-.movder:                      	;movimiento horizontal derecho
+.movder:                      			;movimiento horizontal derecho
         cmp %2,2617
         je .restarder
         inc %2
@@ -272,9 +169,8 @@
 
 
 %macro movbarraSUB 3
-
-	;macro de calculo lateral para movimiento de bajada
-        cmp %3,99                        ;comparacion de estado de r13 para saber si continuar moviendose en alguna direccion lateral
+						;macro de calculo lateralde la barra  para movimiento de subida de la bola
+        cmp %3,99
         je .compderb
 	jmp .compararzb
 .compararzb:
@@ -299,7 +195,7 @@
 	je .movbarrafull2
 	jmp .movderb
 
-.movizqb:                      	;movimiento horizontal izquierdo
+.movizqb:                      			;movimiento horizontal izquierdo
         cmp %2,2608
         je .restarizqb
         dec %2
@@ -314,7 +210,7 @@
         dec %1
         jmp .updatebarraB
 
-.movderb:                      	;movimiento horizontal derecho
+.movderb:                      			;movimiento horizontal derecho
         cmp %2,2617
         je .restarderb
         inc %2
@@ -328,14 +224,8 @@
         inc %1
 %endmacro
 
-
-
-
-
-
-
 ;----------------------PROCEDIMIENTOS------------------------------------
-
+;Procedimiento para imprimimir los bordes del area de juego
 Imp_limites:
 	print screenset,screenset_len	;
 	print techo,tamano_techo        ;imprimir techo
@@ -343,8 +233,7 @@ Imp_limites:
         print p_der,tamano_p_der        ;imprimir pared derecha
         print piso,tamano_piso          ;imprimir piso
 	ret
-
-
+;Procedimiento para imprimir los bloques del juego
 Imp_bloques:
 	print b1,tamano_b1
 	print b2,tamano_b2
@@ -356,6 +245,7 @@ Imp_bloques:
 	print b8,tamano_b8
 	print b9,tamano_b9
 	ret
+;Procedimiento para inicializar los datos de posicion de los bloques
 Ini_datosbloques:
 	mov [db741],word 2608
         mov [db741+8],word 2610
@@ -366,7 +256,7 @@ Ini_datosbloques:
 	mov [db963],word 2611
         mov [db963+8],word 2612
 	ret
-
+;Procedimiento para inicializar el arreglo con el estado de los bloques y variable contadora de contador de bloques destruidos
 Setbloques:
 	mov word [bdestruidos],0
 	mov r13,9
@@ -378,7 +268,7 @@ Setbloques:
 	cmp r13,0
 	jne .c2
 	ret
-
+;Prpcedimiento para destruir los bloques
 Destruirbloques:
 	mov r13,9
 	mov r15,0
@@ -407,8 +297,6 @@ Destruirbloques:
         je .borrab8
 	cmp r15,64
         je .borrab9
-
-
 .borrab1:
 	cmp word [cb+r15],0
 	je .bo1
@@ -484,8 +372,6 @@ Destruirbloques:
 	ret
 
 
-
-
 canonical_off:
 
         ;Este proceso apaga el modo canonico del sistema, el cual
@@ -499,7 +385,6 @@ canonical_off:
 
         call write_stdin_termios ;Este proceso actualiza el valor del termios
         ret
-
 canonical_on:
 
         ;Este proceso reactiva el modo canonico del sistema
@@ -510,7 +395,6 @@ canonical_on:
 
         call write_stdin_termios ;Este proceso actualiza el valor del termios
         ret
-
 
 echo_on:
 
@@ -563,23 +447,18 @@ Pausa:
 ;-----------------------Variables  y mensajes del Juego--------------------
 
 segment .data
-
+	;Bara del juego
 	barra: db "▲▼▲▼▲▼▲▼▲"
 	tamano_barra: equ $-barra
+
+	;Varaible con caracteres de espacio para limpiar movimientos de barras
 	nobarra:db 0x1b,"[26;2f", "                                                 "
 	tam1: equ $-nobarra
-
+	;Variable con caracteres de espacio para limpiar fondo del area de juego/al perder una vida la bola cae en este lugar
 	nobarra0:db 0x1b,"[29;2f", "                                                 "
         lennobarra0: equ $-nobarra0
 
-
-	vfila: db "     "		;variable para almacenar codigos de ejecucion
-        vfila_len: equ $-vfila
-
-	vcolumna: db "     "		;variable para almacenar codigos de ejecucion
-	vcolumna_len: equ $-vcolumna
-
-	vp: db "        "			;variable de pruebas para almacenar codigos de ejecucion
+	vp: db "        "			;variable para almacenar codigos de ejecucion
 	vplen: equ $-vp
 
 	va1: db " "                       ;variable de pruebas para almacenar codigos de ejecucion
@@ -696,10 +575,10 @@ segment .data
 	tamano_msm_pierdevida: equ $-msm_pierdevida
 
 	;Mensaje para perdida de vidas vacio
-        msm_npierdevida: db 0x1b,"[15;12f","                            "
+        msm_npierdevida: db 0x1b,"[15;12f","                             "
         tamano_msm_npierdevida: equ $-msm_npierdevida
 
-	;Mensaje para iniciar juego
+	;Mensaje para iniciar juego vacio
         msm_noseguirjuego: db 0x1b,"[20;14f","                         "
         tamano_msm_noseguirjuego: equ $-msm_noseguirjuego
 
@@ -707,13 +586,9 @@ segment .data
 	color_set_normal: db 0x1b,"[1;1f",0x1b,"[40;37m",0x1b, "[J"
 	tamano_color_set_normal: equ $-color_set_normal:
 
-	bola2: db "B"
-	bola2len: equ $-bola2
-
 	;mensaje de vida
 	vida: db 0x1b,"[32;2f","VIDAS → "
         tamano_vida: equ $-vida
-
 
 	;Simbolos de la cantidad de vida
 	vida3: db 0x1b,"[32;10f","♥ ♥ ♥"
@@ -724,10 +599,10 @@ segment .data
 
 	vida1: db 0x1b,"[32;10f","♥   "
         tamano_vida1: equ $-vida1
-
+	;Bola del juego
 	bola: db "○" 					;bola
 	tamano_bola: equ $-bola
-
+	;Bola del juego vacio
 	nbola: db " "					;no bola
 	tamano_nbola: equ $-nbola
 
@@ -758,10 +633,11 @@ segment .data
 
 
 segment .bss
+	;Variable para guardar nombre del jugador
 	nombre: resb 10
 	let: resb 2
 
-	;variable de estado de movimiento lateral de la bola 
+	;variable de estado de movimiento lateral de la bola
 	buffer: resb 8
 	;variables de almacenamiento de datos de movimiento de la bola
 	buffer1: resb 8
@@ -769,19 +645,19 @@ segment .bss
  	buffer3: resb 8
  	buffer4: resb 8
 
-	;variable de estados de bloques
+	;Arrelgo de estados de bloques
 	cb: resb 72
 	;datos de bloques
 	db741: resb 16
 	db852: resb 16
 	db963: resb 16
-
+	;variable para almacenar cantidad de blqoues destruidos
 	bdestruidos: resb 8
-
+	;Variables para almacenamineto de datos de movimiento de la barra
 	contador: resb 8
 	unidades: resb 8
 	decenas: resb 8
-
+	;Variable para la cantidad de vidas del jugador
 	vidas: resb 8
 
 ;--------------------------CODIGO PRINCIPAL------------------------------------
@@ -799,10 +675,10 @@ _start:
 
 
 	;INICIALIZACION DE VARIABLES Y REGISTROS
-	mov qword [decenas],2610
+	mov qword [decenas],2610			;Inicializacion de posision de la barra
 	mov qword [unidades],2610
 
-	mov [buffer1],word 2610
+	mov [buffer1],word 2610				;Inicializacion de posicion de la bola
         mov [buffer2],word 2610
         mov [buffer3],word 2611
         mov [buffer4],word 2613
@@ -813,35 +689,37 @@ _start:
 
 	call Imp_limites				;imprime limites del juego
 	call Imp_bloques				;imprime bloques del juego
-	call Ini_datosbloques
-	call Setbloques
+	call Ini_datosbloques				;inicializa datos de bloques
+	call Setbloques					;inicializa el estado de los bloques
 	mov word [vidas],0
 
 	mov r14,qword [decenas]				;posicion inicial de la barra
 	mov r15,qword [unidades]
 	mover r14,r15
-	print barra,tamano_barra
+	print barra,tamano_barra			;primera impresion de la barra
 
 	call canonical_off				;Apaga el modo canonico
 	call echo_off					;Apaga el echo
 
-	irs 2610,2610,2611,2613
+	irs 2610,2610,2611,2613				;primera impresion de la bola
 	print bola,tamano_bola
 
-	irs 2611,2610,2612,2608
+	irs 2611,2610,2612,2608				;imprimer nombre del jugador abajo del marco de juego
         print nombre,10
 
-	print vida,tamano_vida
+	print vida,tamano_vida				;imprime la cantidad de vida inicial
 	print vida3,tamano_vida3
 
 ;------------------------------------------------------------------------------------------------------
-	print msm_seguirjuego,tamano_msm_seguirjuego
-	call Pausa
-	print msm_noseguirjuego,tamano_msm_noseguirjuego
+	print msm_seguirjuego,tamano_msm_seguirjuego	;imprime mensaje de tecla requerida para iniciar
+	call Pausa					;pausa de juego
+	print msm_noseguirjuego,tamano_msm_noseguirjuego;borra mensaje de tecla requerida para iniciar
 	mov [buffer],word 0				;establecimiento de direccion lateral inicial
-	jmp .sube					;salto para que empiece a subir la bola
+	jmp .sube					;salto para que empiece a subir la bola INICIO DE JUEGO
 
+	;Al perder una de las vidas regresa a este punto para reinicar valores de datos de juego y reimprimir bloques del juego
 .ciclovidas:
+	;RECARGA DE DATOS DEL JUEGO PARA EL REINICIO DE VIDA
 	mov qword [decenas],2610
         mov qword [unidades],2611
 
@@ -862,16 +740,16 @@ _start:
 	irs 2610,2610,2611,2613
         print bola,tamano_bola
 	jmp .sube
-
-.baja:
-	cmp word [bdestruidos],9
+	;CICLO DE MOVIMIENTO DE BAJADA DE LA BOLA
+.baja:							;ciclo de retraso para imprimir y controlar flujo del juego
+	cmp word [bdestruidos],9			;Si la cantidad de bloques destruidos es 9, salta a la seccion de ganadores
 	je .fin
 	mov r14,100000000
 .unidadesFb1:
         dec r14
 	cmp r14,0
         jne .unidadesFb1
-
+	;SECCION DE VERIFICACION DE LETRAS EN EL TECLADO
 	mov word [let],1				;Limpia el contenido de [let]
 	in_teclado let,1				;Copia, de ser posible, la tecla que se este presionando en [let]
 
@@ -881,12 +759,11 @@ _start:
 	print msm_seguirjuego,tamano_msm_seguirjuego
         call Pausa
         print msm_noseguirjuego,tamano_msm_noseguirjuego
-.continuar1:
 
+.continuar1:
 	mov r14,qword [decenas]				;Se actualiza el valor del buffer decenas
 	mov r15,qword [unidades]			;Se actualiza el valor del buffer unidades
 	movbarraBAJ r14,r15, word [let]			;"macro de calculo de movimiento lateral"
-
 .updatebarraA:
 	mov qword [decenas],r14				;Se guarda el nuevo valor del buffer decenas
         mov qword [unidades],r15			;Se guarda el nuevo valor del buffer unidades
@@ -894,27 +771,23 @@ _start:
 	mover r14,r15					;Se mueve el cursor a la nueva posicion de la barra
         print barra,tamano_barra			;Se imprime la nueva barra
 
+.movbarrafull1:						;Movimiento de la barra efectuado
 
-.movbarrafull1:
 	mov qword [decenas],r14                         ;Se guarda el nuevo valor del buffer decenas
         mov qword [unidades],r15
-
+							;Restablecimiento de varaibles de almacenamiento de posicion de la bola cargados
 	mov r8,[buffer1]
         mov r9,[buffer2]
         mov r10,[buffer3]
         mov r12,[buffer4]
 
-	ir r8,r9,r10,r12
-	print nbola,tamano_nbola
+	ir r8,r9,r10,r12				;Se coloca cursor en posicion almacenada en los registros
+	print nbola,tamano_nbola			;Se imprime la NoBola para borrar la bola anterior
 
-	movlateralBAJ r10,r12,[buffer]	;macro de calculo de movimiento lateral(Bajada)
-.movlateralfull1:
-
-
-
-	;Movimiento de bajada
-
-	cmp r9,2617
+	movlateralBAJ r10,r12,[buffer]			;"macro de calculo de movimiento lateralde la bola(Bajada)"
+.movlateralfull1:					;Movimiento lateral de la bola efectuado
+	;MOVIMIENTO DE BAJADA DE LA BOLA
+	cmp r9,2617					;Para mover bola se incrementan los valores de los registros de la fila
 	je .decenasFb1
 	inc r9
 	jmp .sal0
@@ -922,13 +795,14 @@ _start:
 	mov r9,2608
 	inc r8
 .sal0:
-        ir r8,r9,r10,r12                ;posicion del cursor final para imprimir
+        ir r8,r9,r10,r12                		;posicion del cursor final para imprimir la nueva bola
         print bola,tamano_bola
-
-        cmp r10,2608                     ;comparacion de limite izquierdo decenas
+	;COMPARACION DEL LIMITE IZQUIERDO
+        cmp r10,2608                     		;comparacion de limite izquierdo decenas
         je .compuniizq1
+	;COMPARACION DEL LIMITE DERECHO
         cmp r10,2613
-	je .compunider1			;comparacion de limite derecho decenas
+	je .compunider1					;comparacion de limite derecho decenas
 	jmp .sal2
 .compuniizq1:
         cmp r12,2610
@@ -936,20 +810,18 @@ _start:
 	jmp .sal2
 .compunider1:
         cmp r12,2608
-        mov [buffer],word 0                       ;r13 se usa como variable de estado para determinar si moverse hacia izquierda o derecha
+        mov [buffer],word 0				;Si se esta al limite derecho pone un 0 en buffer para empezar a mover a la izquierda la bola
         jmp .sal2
 .sal1:
-        mov [buffer],word 1
+        mov [buffer],word 1				;Si se esta al limite izquierdo pone un 1 en buffer para empezar a mover a la derecha la bola
 
 .sal2:
+	;Carga los nuevos valores a los buffers de posicion de la bola
 	mov [buffer1],r8
         mov [buffer2],r9
         mov [buffer3],r10
         mov [buffer4],r12
-
-
-;comprobacion de choque con barra
-
+	;COMPROBACION DE CHOQUES DE BOLA CON BARRA
 	cmp r8,2610
         je .bordebarra
         jmp .limiteinferior
@@ -957,7 +829,6 @@ _start:
         cmp r9,2613
 	je .comprobarra
 	jmp .limiteinferior
-
 .comprobarra:
 	mov r13,10
 	mov r14,[decenas]
@@ -969,7 +840,6 @@ _start:
 .verifbarra:
         cmp r10,r14
         je .sube
-
 .aumdatos:
 	cmp r15,2617
         je .aumdec
@@ -984,14 +854,14 @@ _start:
 	jne .revisarbarra
 
 .limiteinferior:
-	cmp r8,2610				;comparacion de limite inferior
+	cmp r8,2610				;Coparacion de limite inferior del area de juego
 	je .limitebajo
 	jmp .seguir
 .limitebajo:
-	cmp r9,2617				;salto a funcion de subir bola por estar en los limites
+	cmp r9,2617
 	je .menosvida
 	jmp .seguir
-
+	;PERDIDA DE VIDAS AL LLEGAR AL FONDO
 .menosvida:					;Se pierde una vida
 	inc word [vidas]
 	cmp word [vidas],3
@@ -1002,6 +872,7 @@ _start:
         je .1vidasrestantes
 
 .2vidasrestantes:
+	;REINICIO DE BLOQUES Y SUS CONDICIONES/SE INDUCE UNA PAUSA AL JUEGO Y REGRES AL CICLO
 	call Imp_bloques
 	call Setbloques
 	print nobarra,tam1
@@ -1013,7 +884,7 @@ _start:
 	print msm_npierdevida,tamano_msm_npierdevida
         print msm_noseguirjuego,tamano_msm_noseguirjuego
 	jmp .ciclovidas
-
+;REINICIO DE BLOQUES Y SUS CONDICIONES/SE INDUCE UNA PAUSA AL JUEGO Y REGRES AL CICLO
 .1vidasrestantes:
         call Imp_bloques
         call Setbloques
@@ -1028,13 +899,11 @@ _start:
 	jmp .ciclovidas
 
 .seguir:
-	jmp .baja
+	jmp .baja					;Si no se ha llegado al limite ni tocado la barra se repite el proceso de bajada
 
+;--------------------------------------------++++++++++++++++++--------------------------------------------------
 
-
-
-
-
+;CICLO DE MOVIMIENTO DE SUBIDA DE LA BOLA
 .sube:
         mov r14,100000000
 .unidadesFs2:
@@ -1042,50 +911,37 @@ _start:
         cmp r14,0
         jne .unidadesFs2
 
-
-
 	mov word [let],1                                ;Limpia el contenido de [let]
         in_teclado let,1                                ;Copia, de ser posible, la tecla que se este presionando en [let]
-
-        ;cmp word [let], 97                             ;Compara si la letra presionada es "a"
-        ;je .fin
         cmp word [let], 120                             ;Compara si la letra presionada es "x"
         jne .continuar2                                 ;De ser verdadero salta al punto de pausa
 	print msm_seguirjuego,tamano_msm_seguirjuego
         call Pausa
         print msm_noseguirjuego,tamano_msm_noseguirjuego
 .continuar2:
-
         mov r14,qword [decenas]                         ;Se actualiza el valor del buffer decenas
         mov r15,qword [unidades]                        ;Se actualiza el valor del buffer unidades
-        movbarraSUB r14,r15, word [let]                 ;"macro de calculo de movimiento lateral"
-        ;mov qword [decenas],r14                                ;Se guarda el nuevo valor del buffer decenas
-        ;mov qword [unidades],r15                       ;Se guarda el nuevo valor del buffer unidades
-
+        movbarraSUB r14,r15, word [let]                 ;"macro de calculo de movimiento lateralde la barra"
 .updatebarraB:
         mov qword [decenas],r14                         ;Se guarda el nuevo valor del buffer decenas
         mov qword [unidades],r15                        ;Se guarda el nuevo valor del buffer unidades
         print nobarra,tam1                              ;Borra el espacio donde ya no se encuentra la barra
         mover r14,r15                                   ;Se mueve el cursor a la nueva posicion de la barra
         print barra,tamano_barra                        ;Se imprime la nueva barra
-
-
 .movbarrafull2:
-        mov qword [decenas],r14                         ;Se guarda el nuevo valor del buffer decenas
+        mov qword [decenas],r14                         ;Se guardan los nuevos valores de posicion de la barra en sus buffers
         mov qword [unidades],r15
-
-
-	mov r8,[buffer1]
+	mov r8,[buffer1]				;Se recargan los valores de los buffers de posicion de la bola
         mov r9,[buffer2]
         mov r10,[buffer3]
         mov r12,[buffer4]
 
-	ir r8,r9,r10,r12
-        print nbola,tamano_nbola
-	movlateralSUB r10,r12,[buffer]	;macro de calculo de movimiento lateral(Subida)
-
-.movlateralfull2:
-	cmp r9,2608			;movimineto para subir
+	ir r8,r9,r10,r12				;Se coloca cursor en posicion anterior a la bola
+        print nbola,tamano_nbola			;Se imprime un espacio para borrar la bola anterior
+	movlateralSUB r10,r12,[buffer]			;"macro de calculo de movimiento lateralde la bola(Subida)"
+.movlateralfull2:					;Movimento lateral de la bola ya efectuado
+	;MOVIMIENTO DE SUBIDA DE LA BOLA
+	cmp r9,2608
         je .decenasFs2
         dec r9
         jmp .sal
@@ -1093,13 +949,14 @@ _start:
         mov r9,2617
         dec r8
 .sal:
-	ir r8,r9,r10,r12		;posicion del cursor final para imprimir
+	ir r8,r9,r10,r12				;posicion del cursor final para imprimir
         print bola,tamano_bola
-
-	cmp r10,2608                     ;comparacion de limite izquierdo  unidades y decenas
+	;COMPARACION DEL LIMITE IZQUIERDO
+	cmp r10,2608                     		;comparacion de limite izquierdo  unidades y decenas
         je .compuniizq2
+	;COMPARACION DEL LIMITE DERECHO
 	cmp r10,2613
-        je .compunider2                 ;comparacion de limite derecho decenas
+        je .compunider2                 		;comparacion de limite derecho decenas
 	jmp .sal4
 .compuniizq2:
         cmp r12,2610
@@ -1107,20 +964,20 @@ _start:
 	jmp .sal4
 .compunider2:
         cmp r12,2608
-	mov [buffer],word 0			;la variable buffer se usa como variable de estado para determinar si moverse hacia izquierda o derecha
+	mov [buffer],word 0				;Si se esta al limite derecho pone un 0 en buffer para empezar a mover a la izquierda la bola
 	jmp .sal4
 .sal3:
-	mov [buffer],word 1
+	mov [buffer],word 1				;Si se esta al limite izquierdo pone un 1 en buffer para empezar a mover a la derecha la bola
 .sal4:
-
+							;Carga los nuevos valores de la posicion dela bola a sus buffers
 	mov [buffer1],r8
         mov [buffer2],r9
         mov [buffer3],r10
         mov [buffer4],r12
 
+	;COMPROBACION DE CHOQUES DE LA BOLA CON LOS BLOQUES
 
-
-	cmp r8,2609                             ;comparacion de limite respecto a bloques 7,8 y 9
+	cmp r8,2609                             	;comparacion de limite respecto a bloques 7,8 y 9/Si la bola esta en la fila donde estan los bloques 7,8 y 9
         je .bordebloque7
         jmp .compb456
 .bordebloque7:
@@ -1128,26 +985,26 @@ _start:
 	je .comprobarchoque7
 	jmp .compb456
 
+	;Si la bola se encuentra en la fila correspondiente a estos bloques se compara el rango de las columnas y al estar la columna de la bola en la de algun blqoues este se destruye 
+	;/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 .comprobarchoque7:
-	cmp word [cb+48],0
-	je .comprobarchoque8
+	cmp word [cb+48],0				;En al arreglo cb[condicion de bloques], se guarda un 0 en la posicion de memoria correspondiente al bloque
+	je .comprobarchoque8				;Salto de comprobacion de choque del siguiente bloque
 	mov r13,16
-	mov r14,[db741]
-        mov r15,[db741+8]
-.c7:
+	mov r14,[db741]					;Variable con informacion de posicion de los bloques 7,4 y 1
+        mov r15,[db741+8]				;Variable con informacion de posicion de los bloques 7,4 y 1
+.c7:							;Ciclo para compribar si la bola esta dentro del rango de columnas del bloque
         cmp r12,r15
         je .verifdecenas7
         jmp .aumdatos7
 .verifdecenas7:
         cmp r10,r14
         je .destruir7
-
 .aumdatos7:
 	cmp r15,2617
         je .aumdec7
         inc r15
         jmp .verc7
-
 .aumdec7:
  	mov r15,2608
         inc r14
@@ -1156,12 +1013,12 @@ _start:
         cmp r13,0
 	jne .c7
         jmp .comprobarchoque8
-.destruir7:
-	inc word [bdestruidos]
-        mov [cb+48],word 0
-	call Destruirbloques
-
-
+.destruir7:						;Si la columna de la bola esta dentro del rango del bloque este es destruido
+	inc word [bdestruidos]				;Se incrementa la cantidad de bloques destruidos
+        mov [cb+48],word 0				;Se coloca un 0 en la posicion de memoria del bloque 7/ Destruido
+	call Destruirbloques				;"macro para borrar los bloques destruidos"
+	;SE SIGUE EL PROCEDIMIENTO DE COMPROBACION DEL BLOQUE 7 PARA EL RESTO DE LOS BLOQUES
+	;/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 .comprobarchoque8:
 	cmp word [cb+56],0
         je .comprobarchoque9
@@ -1175,13 +1032,11 @@ _start:
 .verifdecenas8:
         cmp r10,r14
         je .destruir8
-
 .aumdatos8:
         cmp r15,2617
         je .aumdec8
         inc r15
         jmp .verc8
-
 .aumdec8:
         mov r15,2608
         inc r14
@@ -1194,8 +1049,7 @@ _start:
 	inc word [bdestruidos]
         mov [cb+56],word 0
         call Destruirbloques
-
-
+	;/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 .comprobarchoque9:
 	cmp word [cb+64],0
         je .compb456
@@ -1228,11 +1082,9 @@ _start:
 	inc word [bdestruidos]
         mov [cb+64],word 0
         call Destruirbloques
-
-
-
-;----------------------------
-.compb456:
+	;/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+;----------------------------COMPROBACION DE CHOQUE DE BOLA CON BLOQUES 4,5 Y 6--------------------------------------------
+.compb456:					;Si la bola se encuentra en la fila de estos tres bloques comprueba la colision
 	cmp r8,2608                             ;comparacion de limite respecto a bloques 4,5 y 6
         je .bordebloque4
         jmp .compb123
@@ -1240,7 +1092,7 @@ _start:
         cmp r9,2616
 	je .comprobarchoque4
 	jmp .compb123
-
+	;/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 .comprobarchoque4:
 	cmp word [cb+24],0
 	je .comprobarchoque5
@@ -1254,13 +1106,11 @@ _start:
 .verifdecenas4:
         cmp r10,r14
         je .destruir4
-
 .aumdatos4:
 	cmp r15,2617
         je .aumdec4
         inc r15
         jmp .verc4
-
 .aumdec4:
  	mov r15,2608
         inc r14
@@ -1273,8 +1123,7 @@ _start:
 	inc word [bdestruidos]
         mov [cb+24],word 0
 	call Destruirbloques
-
-
+	;/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 .comprobarchoque5:
 	cmp word [cb+32],0
         je .comprobarchoque6
@@ -1288,13 +1137,11 @@ _start:
 .verifdecenas5:
         cmp r10,r14
         je .destruir5
-
 .aumdatos5:
         cmp r15,2617
         je .aumdec5
         inc r15
         jmp .verc5
-
 .aumdec5:
         mov r15,2608
         inc r14
@@ -1307,8 +1154,7 @@ _start:
 	inc word [bdestruidos]
         mov [cb+32],word 0
         call Destruirbloques
-
-
+	;/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 .comprobarchoque6:
 	cmp word [cb+40],0
         je .compb123
@@ -1322,13 +1168,11 @@ _start:
 .verifdecenas6:
         cmp r10,r14
         je .destruir6
-
 .aumdatos6:
         cmp r15,2617
         je .aumdec6
         inc r15
         jmp .verc6
-
 .aumdec6:
         mov r15,2608
         inc r14
@@ -1341,19 +1185,16 @@ _start:
 	inc word [bdestruidos]
         mov [cb+40],word 0
         call Destruirbloques
-
-
-
-;----------------------------
-.compb123:
-	cmp r8,2608                             ;comparacion de limite respecto a bloques 1,2 y 3
+	;/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+;----------------------------COMPROBACION DE CHOQUE DE LA BOLA CON LOS BLOQUES 1,2 Y 3------------------------------------------------------------------------------
+.compb123:					;Si la bola se encuentra en la fila de estos tres bloques comprueba la colision
+	cmp r8,2608                             ;Comparacion de limite respecto a bloques 1,2 y 3
         je .bordebloque1
         jmp .nochoque
 .bordebloque1:
         cmp r9,2613
 	je .comprobarchoque1
 	jmp .nochoque
-
 .comprobarchoque1:
 	cmp word [cb],0
 	je .comprobarchoque2
@@ -1367,13 +1208,11 @@ _start:
 .verifdecenas1:
         cmp r10,r14
         je .destruir1
-
 .aumdatos1:
 	cmp r15,2617
         je .aumdec1
         inc r15
         jmp .verc1
-
 .aumdec1:
  	mov r15,2608
         inc r14
@@ -1386,8 +1225,7 @@ _start:
 	inc word [bdestruidos]
         mov [cb],word 0
 	call Destruirbloques
-
-
+	;/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 .comprobarchoque2:
 	cmp word [cb+8],0
         je .comprobarchoque3
@@ -1401,13 +1239,11 @@ _start:
 .verifdecenas2:
         cmp r10,r14
         je .destruir2
-
 .aumdatos2:
         cmp r15,2617
         je .aumdec2
         inc r15
         jmp .verc2
-
 .aumdec2:
         mov r15,2608
         inc r14
@@ -1420,8 +1256,7 @@ _start:
 	inc word [bdestruidos]
         mov [cb+8],word 0
         call Destruirbloques
-
-
+	;/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 .comprobarchoque3:
 	cmp word [cb+16],0
         je .nochoque
@@ -1435,13 +1270,11 @@ _start:
 .verifdecenas3:
         cmp r10,r14
         je .destruir3
-
 .aumdatos3:
         cmp r15,2617
         je .aumdec3
         inc r15
         jmp .verc3
-
 .aumdec3:
         mov r15,2608
         inc r14
@@ -1454,8 +1287,8 @@ _start:
 	inc word [bdestruidos]
         mov [cb+16],word 0
         call Destruirbloques
-
-
+	;/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	;COMPROBACION DE LIMITE SUPERIOR DEL AREA DE JUEGO
 .nochoque:
 .limiteup:
 	cmp r8,2608				;comparacion de limite superior unidades y decenas
@@ -1471,7 +1304,7 @@ _start:
 .fin:
 	call canonical_on				;Se vuelve a encender el modo canonico
 	call echo_on					;Se vuelve a encender el echo
-	irs 2611,2613,2608,2608
+	print color_set_normal,tamano_color_set_normal
 	mov rax,60
 	mov rdi,0
 	syscall
