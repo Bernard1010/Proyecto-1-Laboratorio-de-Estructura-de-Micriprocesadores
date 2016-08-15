@@ -430,7 +430,7 @@ write_stdin_termios:
         mov edx, termios	;valor actualizado que queremos usar en el termios
         int 80h			;interrupcion de 32 bits
 
-	pop rax
+        pop rax
         pop rbx
         pop rcx
         pop rdx
@@ -440,7 +440,7 @@ Pausa:
 .pausa:
 	mov word [let],1                                ;Limpia variable let
         in_teclado let,1                                ;Copia, de ser posible, la tecla que se este presionando en [let]
-        cmp word [let],120                              ;Compara si la letra presionada es "x"
+        cmp word [let],120                               ;Compara si la letra presionada es "x"
         jne .pausa                                      ;De no ser "x" el juego sigue en pausa
 	ret
 
@@ -567,12 +567,12 @@ segment .data
 	tamano_msm_bienvenida: equ $-msm_bienvenida
 
         ;Mensaje de Gane y seleccion de seguir o salir
-        msm_gane1: db 0x1b, "[42;39m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[1;3f","                      █████████",0x1b,"[2;3f","   ██████          ███▒▒▒▒▒▒▒▒███",0x1b,"[3;3f","  █▒▒▒▒▒▒█       ███▒▒▒▒▒▒▒▒▒▒▒▒▒███",0x1b,"[4;3f","   █▒▒▒▒▒▒█    ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[5;3f","    █▒▒▒▒▒█   ██▒▒▒▒▒██▒▒▒▒▒▒██▒▒▒▒▒███",0x1b,"[6;3f","     █▒▒▒█   █▒▒▒▒▒▒████▒▒▒▒████▒▒▒▒▒▒██",0x1b,"[7;3f","   █████████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[8;3f","   █▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[9;3f"," ██▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒██▒▒▒▒▒▒▒▒▒▒██▒▒▒▒██",0x1b,"[10;3f","██▒▒▒███████████▒▒▒▒▒██▒▒▒▒▒▒▒▒██▒▒▒▒▒██",0x1b,"[11;3f","█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒████████▒▒▒▒▒▒▒██",0x1b,"[12;3f","██▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[13;3f"," █▒▒▒███████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[14;3f"," ██▒▒▒▒▒▒▒▒▒▒████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█",0x1b,"[15;3f","  ████████████   █████████████████",0x1b,"[17;3f","          FELICIDADES HAS GANADO!!!",0x1b,"[19;3f","Para sailr de juego presiona la tecla X"
+        msm_gane1: db 0x1b, "[42;39m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[1;3f","                      █████████",0x1b,"[2;3f","   ██████          ███▒▒▒▒▒▒▒▒███",0x1b,"[3;3f","  █▒▒▒▒▒▒█       ███▒▒▒▒▒▒▒▒▒▒▒▒▒███",0x1b,"[4;3f","   █▒▒▒▒▒▒█    ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[5;3f","    █▒▒▒▒▒█   ██▒▒▒▒▒██▒▒▒▒▒▒██▒▒▒▒▒███",0x1b,"[6;3f","     █▒▒▒█   █▒▒▒▒▒▒████▒▒▒▒████▒▒▒▒▒▒██",0x1b,"[7;3f","   █████████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[8;3f","   █▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[9;3f"," ██▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒██▒▒▒▒▒▒▒▒▒▒██▒▒▒▒██",0x1b,"[10;3f","██▒▒▒███████████▒▒▒▒▒██▒▒▒▒▒▒▒▒██▒▒▒▒▒██",0x1b,"[11;3f","█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒████████▒▒▒▒▒▒▒██",0x1b,"[12;3f","██▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[13;3f"," █▒▒▒███████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[14;3f"," ██▒▒▒▒▒▒▒▒▒▒████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█",0x1b,"[15;3f","  ████████████   █████████████████",0x1b,"[17;3f","          FELICIDADES,JUEGO TERMINADO!!!",0x1b,"[19;3f","   Para salir del juego presiona la tecla X",0x1b,"[20;3f","  Para una nueva partida presiona la tecla C"
         tamano_msm_gane1: equ $-msm_gane1
         
        
         ;Mensaje de pierde y seleccion de seguir o salir
-        msm_pierde1: db 0x1b, "[41;39m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[1;1f","                  █████████",0x1b,"[2;1f","               ███▒▒▒▒▒▒▒▒███",0x1b,"[3;1f","             ███▒▒▒▒▒▒▒▒▒▒▒▒▒███",0x1b,"[4;1f","           ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[5;1f","          ██▒▒▒▒▒██▒▒▒▒▒▒██▒▒▒▒▒▒██",0x1b,"[6;1f","         ██▒▒▒▒▒████▒▒▒▒████▒▒▒▒▒▒██",0x1b,"[7;1f","         ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[8;1f","         ██▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[9;1f","         ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[10;1f","         ██▒▒▒▒▒▒▒▒████████▒▒▒▒▒▒▒██",0x1b,"[11;1f","         ██▒▒▒▒▒▒██▒▒▒▒▒▒▒▒██▒▒▒▒▒██",0x1b,"[12;1f","          ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[13;1f","           ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[14;1f","             ███▒▒▒▒▒▒▒▒▒▒▒▒▒███",0x1b,"[15;1f","               ███████████████",0x1b,"[18;3f","          LO SIENTO PERDISTE...",0x1b,"[20;3f","Para sailr de juego presiona la tecla X"
+        msm_pierde1: db 0x1b, "[41;39m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[1;1f","                  █████████",0x1b,"[2;1f","               ███▒▒▒▒▒▒▒▒▒███",0x1b,"[3;1f","             ███▒▒▒▒▒▒▒▒▒▒▒▒▒███",0x1b,"[4;1f","           ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[5;1f","          ██▒▒▒▒▒██▒▒▒▒▒▒██▒▒▒▒▒▒██",0x1b,"[6;1f","         ██▒▒▒▒▒████▒▒▒▒████▒▒▒▒▒▒██",0x1b,"[7;1f","         ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[8;1f","         ██▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[9;1f","         ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[10;1f","         ██▒▒▒▒▒▒▒▒███████▒▒▒▒▒▒▒▒██",0x1b,"[11;1f","         ██▒▒▒▒▒▒██▒▒▒▒▒▒▒██▒▒▒▒▒▒██",0x1b,"[12;1f","          ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[13;1f","           ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[14;1f","             ███▒▒▒▒▒▒▒▒▒▒▒▒▒███",0x1b,"[15;1f","               ███████████████",0x1b,"[18;3f","Juego Finalizado. Mejor Suerte la Proxima Vez",0x1b,"[20;3f","  Para salir del juego presiona la tecla X",0x1b,"[21;3f"," Para una nueva partida presiona la tecla C"
         tamano_msm_pierde1: equ $-msm_pierde1
 
 
@@ -1311,12 +1311,22 @@ _start:
         jmp .sube
 .gano:
         print msm_gane1,tamano_msm_gane1            	;despliega la pantalla del gane y espera la tecla X para salir
-        call Pausa                                        
-        jmp .fin
+        ;call Pausa                                        
+        jmp .if
 .perdio:
         print msm_pierde1,tamano_msm_pierde1            	;despliega la pantalla de perdida y espera la tecla X para salir
-        call Pausa                                        
-        jmp .fin
+        ;call Pausa                                        
+        jmp .if
+.if:
+        mov word [let],1                                ;Limpia variable let
+        in_teclado let,1                                ;Copia, de ser posible, la tecla que se este presionando en [let]
+        cmp word [let],120                              ;Compara si la letra presionada es "x"
+        je  .fin                                        ;De no ser "x" el juego sigue en pausa
+	cmp word [let],99
+        je  _start
+        jmp .if
+
+        
 .fin:
 	call canonical_on				;Se vuelve a encender el modo canonico
 	call echo_on					;Se vuelve a encender el echo
