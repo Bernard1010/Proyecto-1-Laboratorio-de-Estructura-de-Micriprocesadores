@@ -1,3 +1,4 @@
+;Proyecto-1-Laboratorio-de-Estructura-de-Micriprocesadores/juego-bola-bloques-barra.asm
 ;-----------MACROS----------------
 
 %macro print 2			;Macro para imprimir datos a pantalla
@@ -223,6 +224,104 @@
         mov %2,2608
         inc %1
 %endmacro
+
+%macro bolarandom 1
+	cmp word [%1],0
+	je .random0
+	cmp word [%1],1
+        je .random1
+	cmp word [%1],2
+        je .random2
+	cmp word [%1],3
+        je .random3
+	cmp word [%1],4
+        je .random4
+	cmp word [%1],5
+        je .random5
+	cmp word [%1],6
+        je .random6
+	cmp word [%1],7
+        je .random7
+	cmp word [%1],8
+        je .random8
+	cmp word [%1],9
+        je .random9
+
+.random0:
+	mov [buffer],word 0
+	mov [buffer1],word 2610                         ;Inicializacion de posicion de la bola
+        mov [buffer2],word 2612
+        mov [buffer3],word 2611
+        mov [buffer4],word 2612
+	jmp .imparea
+
+.random1:
+        mov [buffer],word 0
+        mov [buffer1],word 2610                         ;Inicializacion de posicion de la bola
+        mov [buffer2],word 2612
+        mov [buffer3],word 2611
+        mov [buffer4],word 2615
+        jmp .imparea
+.random2:
+        mov [buffer],word 1
+        mov [buffer1],word 2610                         ;Inicializacion de posicion de la bola
+        mov [buffer2],word 2612
+        mov [buffer3],word 2609
+        mov [buffer4],word 2616
+        jmp .imparea
+.random3:
+        mov [buffer],word 1
+        mov [buffer1],word 2610                         ;Inicializacion de posicion de la bola
+        mov [buffer2],word 2612
+        mov [buffer3],word 2610
+        mov [buffer4],word 2608
+        jmp .imparea
+.random4:
+        mov [buffer],word 1
+        mov [buffer1],word 2610                         ;Inicializacion de posicion de la bola
+        mov [buffer2],word 2612
+        mov [buffer3],word 2611
+        mov [buffer4],word 2610
+        jmp .imparea
+.random5:
+        mov [buffer],word 1
+        mov [buffer1],word 2610                         ;Inicializacion de posicion de la bola
+        mov [buffer2],word 2612
+        mov [buffer3],word 2611
+        mov [buffer4],word 2613
+        jmp .imparea
+.random6:
+        mov [buffer],word 0
+        mov [buffer1],word 2610                         ;Inicializacion de posicion de la bola
+        mov [buffer2],word 2612
+        mov [buffer3],word 2611
+        mov [buffer4],word 2612
+        jmp .imparea
+.random7:
+        mov [buffer],word 0
+        mov [buffer1],word 2610                         ;Inicializacion de posicion de la bola
+        mov [buffer2],word 2612
+        mov [buffer3],word 2611
+        mov [buffer4],word 2614
+        jmp .imparea
+.random8:
+        mov [buffer],word 1
+        mov [buffer1],word 2610                         ;Inicializacion de posicion de la bola
+        mov [buffer2],word 2612
+        mov [buffer3],word 2609
+        mov [buffer4],word 2615
+        jmp .imparea
+.random9:
+        mov [buffer],word 0
+        mov [buffer1],word 2610                         ;Inicializacion de posicion de la bola
+        mov [buffer2],word 2612
+        mov [buffer3],word 2609
+        mov [buffer4],word 2612
+        jmp .imparea
+
+%endmacro
+
+
 
 ;----------------------PROCEDIMIENTOS------------------------------------
 ;Procedimiento para imprimimir los bordes del area de juego
@@ -561,20 +660,20 @@ segment .data
         nb9: db 0x1b,"[8;34f"," ",0x1b,"[8;35f","               ",0x1b,"[8;50f"," ",0x1b,"[9;34f"," ",0x1b,"[9;50f"," ",0x1b,"[10;34f"," ",0x1b,"[10;35f","               ",0x1b,"[10;50f"," "
         tamano_nb9: equ $-nb9
 
-
 	;Mensaje de Bienvenida y solicitud de nombre a jugador
 	msm_bienvenida: db 0x1b,"[46;30m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[9;15f","Bienvenido a Micronoid",0x1b,"[11;4f","EL-4313-Lab. Estructura de Microprocesadores",0x1b,"[13;21f","2S-2016",0x1b,"[15;11f","Ingrese el nombre del jugador:"
 	tamano_msm_bienvenida: equ $-msm_bienvenida
+	;Instrucciones del juego
+	msm_instrucciones: db 0x1b,"[5;55f","Moverse a la izquierda con Z",0x1b,"[7;55f","Moverse a la derecha con C",0x1b,"[9;55f","Pausar juego con X"
+        tamano_msm_instrucciones: equ $-msm_instrucciones
 
         ;Mensaje de Gane y seleccion de seguir o salir
         msm_gane1: db 0x1b, "[42;39m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[1;3f","                      █████████",0x1b,"[2;3f","   ██████          ███▒▒▒▒▒▒▒▒███",0x1b,"[3;3f","  █▒▒▒▒▒▒█       ███▒▒▒▒▒▒▒▒▒▒▒▒▒███",0x1b,"[4;3f","   █▒▒▒▒▒▒█    ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[5;3f","    █▒▒▒▒▒█   ██▒▒▒▒▒██▒▒▒▒▒▒██▒▒▒▒▒███",0x1b,"[6;3f","     █▒▒▒█   █▒▒▒▒▒▒████▒▒▒▒████▒▒▒▒▒▒██",0x1b,"[7;3f","   █████████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[8;3f","   █▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[9;3f"," ██▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒██▒▒▒▒▒▒▒▒▒▒██▒▒▒▒██",0x1b,"[10;3f","██▒▒▒███████████▒▒▒▒▒██▒▒▒▒▒▒▒▒██▒▒▒▒▒██",0x1b,"[11;3f","█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒████████▒▒▒▒▒▒▒██",0x1b,"[12;3f","██▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[13;3f"," █▒▒▒███████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[14;3f"," ██▒▒▒▒▒▒▒▒▒▒████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█",0x1b,"[15;3f","  ████████████   █████████████████",0x1b,"[17;3f","          FELICIDADES,JUEGO TERMINADO!!!",0x1b,"[19;3f","   Para salir del juego presiona la tecla X",0x1b,"[20;3f","  Para una nueva partida presiona la tecla C"
         tamano_msm_gane1: equ $-msm_gane1
-        
-       
+
         ;Mensaje de pierde y seleccion de seguir o salir
         msm_pierde1: db 0x1b, "[41;39m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[1;1f","                  █████████",0x1b,"[2;1f","               ███▒▒▒▒▒▒▒▒▒███",0x1b,"[3;1f","             ███▒▒▒▒▒▒▒▒▒▒▒▒▒███",0x1b,"[4;1f","           ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[5;1f","          ██▒▒▒▒▒██▒▒▒▒▒▒██▒▒▒▒▒▒██",0x1b,"[6;1f","         ██▒▒▒▒▒████▒▒▒▒████▒▒▒▒▒▒██",0x1b,"[7;1f","         ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[8;1f","         ██▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[9;1f","         ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[10;1f","         ██▒▒▒▒▒▒▒▒███████▒▒▒▒▒▒▒▒██",0x1b,"[11;1f","         ██▒▒▒▒▒▒██▒▒▒▒▒▒▒██▒▒▒▒▒▒██",0x1b,"[12;1f","          ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[13;1f","           ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[14;1f","             ███▒▒▒▒▒▒▒▒▒▒▒▒▒███",0x1b,"[15;1f","               ███████████████",0x1b,"[18;3f","Juego Finalizado. Mejor Suerte la Proxima Vez",0x1b,"[20;3f","  Para salir del juego presiona la tecla X",0x1b,"[21;3f"," Para una nueva partida presiona la tecla C"
         tamano_msm_pierde1: equ $-msm_pierde1
-
 
 	;Mensaje para iniciar juego
 	msm_seguirjuego: db 0x1b,"[20;14f","Presione X para continuar"
@@ -669,7 +768,8 @@ segment .bss
 	decenas: resb 8
 	;Variable para la cantidad de vidas del jugador
 	vidas: resb 8
-
+	;Varaible que almacena numero para bola aleatoria
+	brandom: resb 8
 ;--------------------------CODIGO PRINCIPAL------------------------------------
 
 segment .text
@@ -683,24 +783,23 @@ _start:
 	print centro,tamano_centro			;mueve cursor a siguiente posicion
 	in_teclado nombre,10				; espera datos del usuario
 
-
 	;INICIALIZACION DE VARIABLES Y REGISTROS
 	mov qword [decenas],2610			;Inicializacion de posision de la barra
 	mov qword [unidades],2610
 
-	mov [buffer1],word 2610				;Inicializacion de posicion de la bola
-        mov [buffer2],word 2610
-        mov [buffer3],word 2611
-        mov [buffer4],word 2613
-	mov r8,[buffer1]
-        mov r9,[buffer2]
-        mov r10,[buffer3]
-        mov r12,[buffer4]
+	;mov [buffer1],word 2610				;Inicializacion de posicion de la bola
+        ;mov [buffer2],word 2612
+        ;mov [buffer3],word 2611
+        ;mov [buffer4],word 2610
+	mov [brandom],word 0
+	bolarandom brandom
 
+.imparea:
 	call Imp_limites				;imprime limites del juego
 	call Imp_bloques				;imprime bloques del juego
 	call Ini_datosbloques				;inicializa datos de bloques
 	call Setbloques					;inicializa el estado de los bloques
+	print msm_instrucciones,tamano_msm_instrucciones
 	mov word [vidas],0
 
 	mov r14,qword [decenas]				;posicion inicial de la barra
@@ -710,9 +809,6 @@ _start:
 
 	call canonical_off				;Apaga el modo canonico
 	call echo_off					;Apaga el echo
-
-	irs 2610,2610,2611,2613				;primera impresion de la bola
-	print bola,tamano_bola
 
 	irs 2611,2610,2612,2608				;imprimer nombre del jugador abajo del marco de juego
         print nombre,10
@@ -724,7 +820,7 @@ _start:
 	print msm_seguirjuego,tamano_msm_seguirjuego	;imprime mensaje de tecla requerida para iniciar
 	call Pausa					;pausa de juego
 	print msm_noseguirjuego,tamano_msm_noseguirjuego;borra mensaje de tecla requerida para iniciar
-	mov [buffer],word 0				;establecimiento de direccion lateral inicial
+	;mov [buffer],word 1				;establecimiento de direccion lateral inicial
 	jmp .sube					;salto para que empiece a subir la bola INICIO DE JUEGO
 
 	;Al perder una de las vidas regresa a este punto para reinicar valores de datos de juego y reimprimir bloques del juego
@@ -734,9 +830,9 @@ _start:
         mov qword [unidades],2611
 
         mov [buffer1],word 2610
-        mov [buffer2],word 2610
+        mov [buffer2],word 2612
         mov [buffer3],word 2611
-        mov [buffer4],word 2613
+        mov [buffer4],word 2610
         mov r8,[buffer1]
         mov r9,[buffer2]
         mov r10,[buffer3]
@@ -747,14 +843,14 @@ _start:
 	mover r14,r15
         print barra,tamano_barra
 
-	irs 2610,2610,2611,2613
-        print bola,tamano_bola
+	;irs 2610,2612,2609,2614
+        ;print bola,tamano_bola
 	jmp .sube
 	;CICLO DE MOVIMIENTO DE BAJADA DE LA BOLA
 .baja:							;ciclo de retraso para imprimir y controlar flujo del juego
 	cmp word [bdestruidos],9			;Si la cantidad de bloques destruidos es 9, salta a la seccion de ganadores
 	je .gano                                  ; Avisa al jugador que gano y espera la tecla X para salir
-	mov r14,100000000
+	mov r14,110000000
 .unidadesFb1:
         dec r14
 	cmp r14,0
@@ -915,7 +1011,7 @@ _start:
 
 ;CICLO DE MOVIMIENTO DE SUBIDA DE LA BOLA
 .sube:
-        mov r14,100000000
+        mov r14,90000000
 .unidadesFs2:
         dec r14
         cmp r14,0
@@ -1311,11 +1407,11 @@ _start:
         jmp .sube
 .gano:
         print msm_gane1,tamano_msm_gane1            	;despliega la pantalla del gane y espera la tecla X para salir
-        ;call Pausa                                        
+        ;call Pausa
         jmp .if
 .perdio:
         print msm_pierde1,tamano_msm_pierde1            	;despliega la pantalla de perdida y espera la tecla X para salir
-        ;call Pausa                                        
+        ;call Pausa
         jmp .if
 .if:
         mov word [let],1                                ;Limpia variable let
@@ -1326,7 +1422,7 @@ _start:
         je  _start
         jmp .if
 
-        
+
 .fin:
 	call canonical_on				;Se vuelve a encender el modo canonico
 	call echo_on					;Se vuelve a encender el echo
@@ -1334,3 +1430,5 @@ _start:
 	mov rax,60
 	mov rdi,0
 	syscall
+
+
