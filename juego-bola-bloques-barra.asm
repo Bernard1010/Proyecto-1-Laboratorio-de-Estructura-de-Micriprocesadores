@@ -566,6 +566,16 @@ segment .data
 	msm_bienvenida: db 0x1b,"[46;30m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[9;15f","Bienvenido a Micronoid",0x1b,"[11;4f","EL-4313-Lab. Estructura de Microprocesadores",0x1b,"[13;21f","2S-2016",0x1b,"[15;11f","Ingrese el nombre del jugador:"
 	tamano_msm_bienvenida: equ $-msm_bienvenida
 
+        ;Mensaje de Gane y seleccion de seguir o salir
+        msm_gane1: db 0x1b, "[42;39m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[1;3f","                      █████████",0x1b,"[2;3f","   ██████          ███▒▒▒▒▒▒▒▒███",0x1b,"[3;3f","  █▒▒▒▒▒▒█       ███▒▒▒▒▒▒▒▒▒▒▒▒▒███",0x1b,"[4;3f","   █▒▒▒▒▒▒█    ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[5;3f","    █▒▒▒▒▒█   ██▒▒▒▒▒██▒▒▒▒▒▒██▒▒▒▒▒███",0x1b,"[6;3f","     █▒▒▒█   █▒▒▒▒▒▒████▒▒▒▒████▒▒▒▒▒▒██",0x1b,"[7;3f","   █████████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[8;3f","   █▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[9;3f"," ██▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒██▒▒▒▒▒▒▒▒▒▒██▒▒▒▒██",0x1b,"[10;3f","██▒▒▒███████████▒▒▒▒▒██▒▒▒▒▒▒▒▒██▒▒▒▒▒██",0x1b,"[11;3f","█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒████████▒▒▒▒▒▒▒██",0x1b,"[12;3f","██▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[13;3f"," █▒▒▒███████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[14;3f"," ██▒▒▒▒▒▒▒▒▒▒████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█",0x1b,"[15;3f","  ████████████   █████████████████",0x1b,"[17;3f","          FELICIDADES HAS GANADO!!!",0x1b,"[19;3f","Para sailr de juego presiona la tecla X"
+        tamano_msm_gane1: equ $-msm_gane1
+        
+       
+        ;Mensaje de pierde y seleccion de seguir o salir
+        msm_pierde1: db 0x1b, "[41;39m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[1;1f","                  █████████",0x1b,"[2;1f","               ███▒▒▒▒▒▒▒▒███",0x1b,"[3;1f","             ███▒▒▒▒▒▒▒▒▒▒▒▒▒███",0x1b,"[4;1f","           ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[5;1f","          ██▒▒▒▒▒██▒▒▒▒▒▒██▒▒▒▒▒▒██",0x1b,"[6;1f","         ██▒▒▒▒▒████▒▒▒▒████▒▒▒▒▒▒██",0x1b,"[7;1f","         ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[8;1f","         ██▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[9;1f","         ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[10;1f","         ██▒▒▒▒▒▒▒▒████████▒▒▒▒▒▒▒██",0x1b,"[11;1f","         ██▒▒▒▒▒▒██▒▒▒▒▒▒▒▒██▒▒▒▒▒██",0x1b,"[12;1f","          ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[13;1f","           ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[14;1f","             ███▒▒▒▒▒▒▒▒▒▒▒▒▒███",0x1b,"[15;1f","               ███████████████",0x1b,"[18;3f","          LO SIENTO PERDISTE...",0x1b,"[20;3f","Para sailr de juego presiona la tecla X"
+        tamano_msm_pierde1: equ $-msm_pierde1
+
+
 	;Mensaje para iniciar juego
 	msm_seguirjuego: db 0x1b,"[20;14f","Presione X para continuar"
 	tamano_msm_seguirjuego: equ $-msm_seguirjuego
@@ -743,7 +753,7 @@ _start:
 	;CICLO DE MOVIMIENTO DE BAJADA DE LA BOLA
 .baja:							;ciclo de retraso para imprimir y controlar flujo del juego
 	cmp word [bdestruidos],9			;Si la cantidad de bloques destruidos es 9, salta a la seccion de ganadores
-	je .fin
+	je .gano                                  ; Avisa al jugador que gano y espera la tecla X para salir
 	mov r14,100000000
 .unidadesFb1:
         dec r14
@@ -865,7 +875,7 @@ _start:
 .menosvida:					;Se pierde una vida
 	inc word [vidas]
 	cmp word [vidas],3
-	je .fin
+	je .perdio                                ;Sin vidas extra sale y avisa al jugador que perdio
 	cmp word [vidas],1
 	je .2vidasrestantes
 	cmp word [vidas],2
@@ -1299,8 +1309,14 @@ _start:
         je .baja
 .holdsubir:
         jmp .sube
-
-
+.gano:
+        print msm_gane1,tamano_msm_gane1            	;despliega la pantalla del gane y espera la tecla X para salir
+        call Pausa                                        
+        jmp .fin
+.perdio:
+        print msm_pierde1,tamano_msm_pierde1            	;despliega la pantalla de perdida y espera la tecla X para salir
+        call Pausa                                        
+        jmp .fin
 .fin:
 	call canonical_on				;Se vuelve a encender el modo canonico
 	call echo_on					;Se vuelve a encender el echo
@@ -1308,5 +1324,3 @@ _start:
 	mov rax,60
 	mov rdi,0
 	syscall
-
-
