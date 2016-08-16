@@ -326,7 +326,8 @@
 ;----------------------PROCEDIMIENTOS------------------------------------
 ;Procedimiento para imprimimir los bordes del area de juego
 Imp_limites:
-	print screenset,screenset_len	;
+        	
+        print screenset,screenset_len	;
 	print techo,tamano_techo        ;imprimir techo
         print p_izq,tamano_p_izq        ;imprimir pared izquierda
         print p_der,tamano_p_der        ;imprimir pared derecha
@@ -663,16 +664,25 @@ segment .data
 	;Mensaje de Bienvenida y solicitud de nombre a jugador
 	msm_bienvenida: db 0x1b,"[46;30m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[9;15f","Bienvenido a Micronoid",0x1b,"[11;4f","EL-4313-Lab. Estructura de Microprocesadores",0x1b,"[13;21f","2S-2016",0x1b,"[15;11f","Ingrese el nombre del jugador:"
 	tamano_msm_bienvenida: equ $-msm_bienvenida
+
+        ;Mensaje de Salida con informacion del grupo y sistema
+	msm_creditos: db 0x1b,"[46;30m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[9;15f","Estudiantes",0x1b,"[11;21f","Felipe Herrero",0x1b,"[12;21f","Bernardo Rodriguez",0x1b,"[13;21f","Sergio Gonzales",0x1b,"[14;21f","Alejandro Murillo"
+	tamano_msm_creditos: equ $-msm_creditos
+
 	;Instrucciones del juego
 	msm_instrucciones: db 0x1b,"[5;55f","Moverse a la izquierda con Z",0x1b,"[7;55f","Moverse a la derecha con C",0x1b,"[9;55f","Pausar juego con X"
         tamano_msm_instrucciones: equ $-msm_instrucciones
 
+        ;Mensaje de reiniciar el juego, se utiliza para devolver el color correcto a la pantalla
+        msm_reset: db 0x1b, "[47;30m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[1;3f"," REINICIANDO PARTIDA"
+        tamano_msm_reset: equ $-msm_reset
+                
         ;Mensaje de Gane y seleccion de seguir o salir
-        msm_gane1: db 0x1b, "[42;39m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[1;3f","                      █████████",0x1b,"[2;3f","   ██████          ███▒▒▒▒▒▒▒▒███",0x1b,"[3;3f","  █▒▒▒▒▒▒█       ███▒▒▒▒▒▒▒▒▒▒▒▒▒███",0x1b,"[4;3f","   █▒▒▒▒▒▒█    ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[5;3f","    █▒▒▒▒▒█   ██▒▒▒▒▒██▒▒▒▒▒▒██▒▒▒▒▒███",0x1b,"[6;3f","     █▒▒▒█   █▒▒▒▒▒▒████▒▒▒▒████▒▒▒▒▒▒██",0x1b,"[7;3f","   █████████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[8;3f","   █▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[9;3f"," ██▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒██▒▒▒▒▒▒▒▒▒▒██▒▒▒▒██",0x1b,"[10;3f","██▒▒▒███████████▒▒▒▒▒██▒▒▒▒▒▒▒▒██▒▒▒▒▒██",0x1b,"[11;3f","█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒████████▒▒▒▒▒▒▒██",0x1b,"[12;3f","██▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[13;3f"," █▒▒▒███████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[14;3f"," ██▒▒▒▒▒▒▒▒▒▒████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█",0x1b,"[15;3f","  ████████████   █████████████████",0x1b,"[17;3f","          FELICIDADES,JUEGO TERMINADO!!!",0x1b,"[19;3f","   Para salir del juego presiona la tecla X",0x1b,"[20;3f","  Para una nueva partida presiona la tecla C"
+        msm_gane1: db 0x1b, "[42;39m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[1;3f","                      █████████",0x1b,"[2;3f","   ██████          ███▒▒▒▒▒▒▒▒███",0x1b,"[3;3f","  █▒▒▒▒▒▒█       ███▒▒▒▒▒▒▒▒▒▒▒▒▒███",0x1b,"[4;3f","   █▒▒▒▒▒▒█    ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[5;3f","    █▒▒▒▒▒█   ██▒▒▒▒▒██▒▒▒▒▒▒██▒▒▒▒▒███",0x1b,"[6;3f","     █▒▒▒█   █▒▒▒▒▒▒████▒▒▒▒████▒▒▒▒▒▒██",0x1b,"[7;3f","   █████████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[8;3f","   █▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[9;3f"," ██▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒██▒▒▒▒▒▒▒▒▒▒██▒▒▒▒██",0x1b,"[10;3f","██▒▒▒███████████▒▒▒▒▒██▒▒▒▒▒▒▒▒██▒▒▒▒▒██",0x1b,"[11;3f","█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒████████▒▒▒▒▒▒▒██",0x1b,"[12;3f","██▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[13;3f"," █▒▒▒███████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[14;3f"," ██▒▒▒▒▒▒▒▒▒▒████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█",0x1b,"[15;3f","  ████████████   █████████████████",0x1b,"[17;3f","          FELICIDADES,JUEGO TERMINADO!!!",0x1b,"[19;3f","   Para salir del juego presiona la tecla N",0x1b,"[20;3f","  Para una nueva partida presiona la tecla S"
         tamano_msm_gane1: equ $-msm_gane1
 
         ;Mensaje de pierde y seleccion de seguir o salir
-        msm_pierde1: db 0x1b, "[41;39m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[1;1f","                  █████████",0x1b,"[2;1f","               ███▒▒▒▒▒▒▒▒▒███",0x1b,"[3;1f","             ███▒▒▒▒▒▒▒▒▒▒▒▒▒███",0x1b,"[4;1f","           ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[5;1f","          ██▒▒▒▒▒██▒▒▒▒▒▒██▒▒▒▒▒▒██",0x1b,"[6;1f","         ██▒▒▒▒▒████▒▒▒▒████▒▒▒▒▒▒██",0x1b,"[7;1f","         ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[8;1f","         ██▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[9;1f","         ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[10;1f","         ██▒▒▒▒▒▒▒▒███████▒▒▒▒▒▒▒▒██",0x1b,"[11;1f","         ██▒▒▒▒▒▒██▒▒▒▒▒▒▒██▒▒▒▒▒▒██",0x1b,"[12;1f","          ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[13;1f","           ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[14;1f","             ███▒▒▒▒▒▒▒▒▒▒▒▒▒███",0x1b,"[15;1f","               ███████████████",0x1b,"[18;3f","Juego Finalizado. Mejor Suerte la Proxima Vez",0x1b,"[20;3f","  Para salir del juego presiona la tecla X",0x1b,"[21;3f"," Para una nueva partida presiona la tecla C"
+        msm_pierde1: db 0x1b, "[41;39m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[1;1f","                  █████████",0x1b,"[2;1f","               ███▒▒▒▒▒▒▒▒▒███",0x1b,"[3;1f","             ███▒▒▒▒▒▒▒▒▒▒▒▒▒███",0x1b,"[4;1f","           ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[5;1f","          ██▒▒▒▒▒██▒▒▒▒▒▒██▒▒▒▒▒▒██",0x1b,"[6;1f","         ██▒▒▒▒▒████▒▒▒▒████▒▒▒▒▒▒██",0x1b,"[7;1f","         ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[8;1f","         ██▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[9;1f","         ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[10;1f","         ██▒▒▒▒▒▒▒▒███████▒▒▒▒▒▒▒▒██",0x1b,"[11;1f","         ██▒▒▒▒▒▒██▒▒▒▒▒▒▒██▒▒▒▒▒▒██",0x1b,"[12;1f","          ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[13;1f","           ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[14;1f","             ███▒▒▒▒▒▒▒▒▒▒▒▒▒███",0x1b,"[15;1f","               ███████████████",0x1b,"[18;3f","Juego Finalizado. Mejor Suerte la Proxima Vez",0x1b,"[20;3f","  Para salir del juego presiona la tecla N",0x1b,"[21;3f"," Para una nueva partida presiona la tecla S"
         tamano_msm_pierde1: equ $-msm_pierde1
 
 	;Mensaje para iniciar juego
@@ -782,7 +792,8 @@ _start:
 	print msm_bienvenida,tamano_msm_bienvenida	;imprimir mensaje de bienvenida y solicita nombre a usuario
 	print centro,tamano_centro			;mueve cursor a siguiente posicion
 	in_teclado nombre,10				; espera datos del usuario
-
+.restart:
+        print msm_reset,tamano_msm_reset
 	;INICIALIZACION DE VARIABLES Y REGISTROS
 	mov qword [decenas],2610			;Inicializacion de posision de la barra
 	mov qword [unidades],2610
@@ -1416,12 +1427,16 @@ _start:
 .if:
         mov word [let],1                                ;Limpia variable let
         in_teclado let,1                                ;Copia, de ser posible, la tecla que se este presionando en [let]
-        cmp word [let],120                              ;Compara si la letra presionada es "x"
-        je  .fin                                        ;De no ser "x" el juego sigue en pausa
-	cmp word [let],99
-        je  _start
+        cmp word [let],110                              ;Compara si la letra presionada es "N"
+        je  .fin                                        ;De no ser "N" el juego sigue en pausa y revisa por la siguiente tecla
+	cmp word [let],115                              ;De no ser "S" el juego sigue en pausa
+        je  .restart
         jmp .if
-
+        
+;.creditos:
+;        print msm_creditos,tamano_msm_creditos
+;        call .pausa
+;        jmp .fin
 
 .fin:
 	call canonical_on				;Se vuelve a encender el modo canonico
