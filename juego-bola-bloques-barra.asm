@@ -326,7 +326,6 @@
 ;----------------------PROCEDIMIENTOS------------------------------------
 ;Procedimiento para imprimimir los bordes del area de juego
 Imp_limites:
-        	
         print screenset,screenset_len	;
 	print techo,tamano_techo        ;imprimir techo
         print p_izq,tamano_p_izq        ;imprimir pared izquierda
@@ -540,8 +539,16 @@ Pausa:
 .pausa:
 	mov word [let],1                                ;Limpia variable let
         in_teclado let,1                                ;Copia, de ser posible, la tecla que se este presionando en [let]
-        cmp word [let],120                               ;Compara si la letra presionada es "x"
-        jne .pausa                                      ;De no ser "x" el juego sigue en pausa
+        cmp word [aleatorio],9
+	je .re
+	inc word [aleatorio]
+	jmp .continua
+.re:
+	mov word [aleatorio],word 0
+
+.continua:
+	cmp word [let],120
+	jne .pausa                                      ;De no ser "x" el juego sigue en pausa
 	ret
 
 ;-----------------------Variables  y mensajes del Juego--------------------
@@ -676,13 +683,13 @@ segment .data
         ;Mensaje de reiniciar el juego, se utiliza para devolver el color correcto a la pantalla
         msm_reset: db 0x1b, "[47;30m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[1;3f"," REINICIANDO PARTIDA"
         tamano_msm_reset: equ $-msm_reset
-                
+
         ;Mensaje de Gane y seleccion de seguir o salir
-        msm_gane1: db 0x1b, "[42;39m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[1;3f","                      █████████",0x1b,"[2;3f","   ██████          ███▒▒▒▒▒▒▒▒███",0x1b,"[3;3f","  █▒▒▒▒▒▒█       ███▒▒▒▒▒▒▒▒▒▒▒▒▒███",0x1b,"[4;3f","   █▒▒▒▒▒▒█    ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[5;3f","    █▒▒▒▒▒█   ██▒▒▒▒▒██▒▒▒▒▒▒██▒▒▒▒▒███",0x1b,"[6;3f","     █▒▒▒█   █▒▒▒▒▒▒████▒▒▒▒████▒▒▒▒▒▒██",0x1b,"[7;3f","   █████████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[8;3f","   █▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[9;3f"," ██▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒██▒▒▒▒▒▒▒▒▒▒██▒▒▒▒██",0x1b,"[10;3f","██▒▒▒███████████▒▒▒▒▒██▒▒▒▒▒▒▒▒██▒▒▒▒▒██",0x1b,"[11;3f","█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒████████▒▒▒▒▒▒▒██",0x1b,"[12;3f","██▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[13;3f"," █▒▒▒███████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[14;3f"," ██▒▒▒▒▒▒▒▒▒▒████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█",0x1b,"[15;3f","  ████████████   █████████████████",0x1b,"[17;3f","          FELICIDADES,JUEGO TERMINADO!!!",0x1b,"[19;3f","   Para salir del juego presiona la tecla N",0x1b,"[20;3f","  Para una nueva partida presiona la tecla S"
+        msm_gane1: db 0x1b, "[42;39m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[1;3f","                      █████████",0x1b,"[2;3f","   ██████          ███▒▒▒▒▒▒▒▒███",0x1b,"[3;3f","  █▒▒▒▒▒▒█       ███▒▒▒▒▒▒▒▒▒▒▒▒▒███",0x1b,"[4;3f","   █▒▒▒▒▒▒█    ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[5;3f","    █▒▒▒▒▒█   ██▒▒▒▒▒██▒▒▒▒▒▒██▒▒▒▒▒███",0x1b,"[6;3f","     █▒▒▒█   █▒▒▒▒▒▒████▒▒▒▒████▒▒▒▒▒▒██",0x1b,"[7;3f","   █████████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[8;3f","   █▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[9;3f"," ██▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒██▒▒▒▒▒▒▒▒▒▒██▒▒▒▒██",0x1b,"[10;3f","██▒▒▒███████████▒▒▒▒▒██▒▒▒▒▒▒▒▒██▒▒▒▒▒██",0x1b,"[11;3f","█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒████████▒▒▒▒▒▒▒██",0x1b,"[12;3f","██▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[13;3f"," █▒▒▒███████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[14;3f"," ██▒▒▒▒▒▒▒▒▒▒████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█",0x1b,"[15;3f","  ████████████   █████████████████",0x1b,"[17;3f","          FELICIDADES,JUEGO TERMINADO!!!",0x1b,"[19;3f","   Para salir del juego presiona la tecla N",0x1b,"[20;3f","  Para una nueva partida presiona la tecla S",0xa
         tamano_msm_gane1: equ $-msm_gane1
 
         ;Mensaje de pierde y seleccion de seguir o salir
-        msm_pierde1: db 0x1b, "[41;39m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[1;1f","                  █████████",0x1b,"[2;1f","               ███▒▒▒▒▒▒▒▒▒███",0x1b,"[3;1f","             ███▒▒▒▒▒▒▒▒▒▒▒▒▒███",0x1b,"[4;1f","           ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[5;1f","          ██▒▒▒▒▒██▒▒▒▒▒▒██▒▒▒▒▒▒██",0x1b,"[6;1f","         ██▒▒▒▒▒████▒▒▒▒████▒▒▒▒▒▒██",0x1b,"[7;1f","         ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[8;1f","         ██▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[9;1f","         ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[10;1f","         ██▒▒▒▒▒▒▒▒███████▒▒▒▒▒▒▒▒██",0x1b,"[11;1f","         ██▒▒▒▒▒▒██▒▒▒▒▒▒▒██▒▒▒▒▒▒██",0x1b,"[12;1f","          ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[13;1f","           ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[14;1f","             ███▒▒▒▒▒▒▒▒▒▒▒▒▒███",0x1b,"[15;1f","               ███████████████",0x1b,"[18;3f","Juego Finalizado. Mejor Suerte la Proxima Vez",0x1b,"[20;3f","  Para salir del juego presiona la tecla N",0x1b,"[21;3f"," Para una nueva partida presiona la tecla S"
+        msm_pierde1: db 0x1b, "[41;39m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[1;1f","                  █████████",0x1b,"[2;1f","               ███▒▒▒▒▒▒▒▒▒███",0x1b,"[3;1f","             ███▒▒▒▒▒▒▒▒▒▒▒▒▒███",0x1b,"[4;1f","           ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[5;1f","          ██▒▒▒▒▒██▒▒▒▒▒▒██▒▒▒▒▒▒██",0x1b,"[6;1f","         ██▒▒▒▒▒████▒▒▒▒████▒▒▒▒▒▒██",0x1b,"[7;1f","         ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[8;1f","         ██▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[9;1f","         ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[10;1f","         ██▒▒▒▒▒▒▒▒███████▒▒▒▒▒▒▒▒██",0x1b,"[11;1f","         ██▒▒▒▒▒▒██▒▒▒▒▒▒▒██▒▒▒▒▒▒██",0x1b,"[12;1f","          ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[13;1f","           ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██",0x1b,"[14;1f","             ███▒▒▒▒▒▒▒▒▒▒▒▒▒███",0x1b,"[15;1f","               ███████████████",0x1b,"[18;3f","Juego Finalizado. Mejor Suerte la Proxima Vez",0x1b,"[20;3f","  Para salir del juego presiona la tecla N",0x1b,"[21;3f"," Para una nueva partida presiona la tecla S",0xa
         tamano_msm_pierde1: equ $-msm_pierde1
 
 	;Mensaje para iniciar juego
@@ -740,6 +747,10 @@ segment .data
 	cal: db 0x1b,"[?25h"				;codigo paara mostrar el cursor
         tam: equ $-cal
 
+	mns: db 'No se puede imprir los datos del cpu_id ',0xa
+        tamano_mns: equ $-mns
+        mns2: db '',0xa
+        tamano_mns2: equ $-mns2
 
 	termios:        times 36 db 0                   ;Estructura de 36bytes que contiene el modo de opera$
         stdin:          equ 0                           ;Nombre de referencia a la hora de llamar el stdin
@@ -752,6 +763,8 @@ segment .data
 
 
 segment .bss
+	var: resb 50
+
 	;Variable para guardar nombre del jugador
 	nombre: resb 10
 	let: resb 2
@@ -780,6 +793,8 @@ segment .bss
 	vidas: resb 8
 	;Varaible que almacena numero para bola aleatoria
 	brandom: resb 8
+
+	aleatorio: resb 8
 ;--------------------------CODIGO PRINCIPAL------------------------------------
 
 segment .text
@@ -802,10 +817,9 @@ _start:
         ;mov [buffer2],word 2612
         ;mov [buffer3],word 2611
         ;mov [buffer4],word 2610
-	mov [brandom],word 0
-	bolarandom brandom
+	;mov [brandom],word 9
+	;bolarandom brandom
 
-.imparea:
 	call Imp_limites				;imprime limites del juego
 	call Imp_bloques				;imprime bloques del juego
 	call Ini_datosbloques				;inicializa datos de bloques
@@ -829,9 +843,12 @@ _start:
 
 ;------------------------------------------------------------------------------------------------------
 	print msm_seguirjuego,tamano_msm_seguirjuego	;imprime mensaje de tecla requerida para iniciar
+	mov [aleatorio],word 0
 	call Pausa					;pausa de juego
-	print msm_noseguirjuego,tamano_msm_noseguirjuego;borra mensaje de tecla requerida para iniciar
+	bolarandom aleatorio
 	;mov [buffer],word 1				;establecimiento de direccion lateral inicial
+	.imparea:
+	print msm_noseguirjuego,tamano_msm_noseguirjuego;borra mensaje de tecla requerida para iniciar
 	jmp .sube					;salto para que empiece a subir la bola INICIO DE JUEGO
 
 	;Al perder una de las vidas regresa a este punto para reinicar valores de datos de juego y reimprimir bloques del juego
@@ -840,10 +857,10 @@ _start:
 	mov qword [decenas],2610
         mov qword [unidades],2611
 
-        mov [buffer1],word 2610
-        mov [buffer2],word 2612
+	mov [buffer1],word 2610
+        mov [buffer2],word 2610
         mov [buffer3],word 2611
-        mov [buffer4],word 2610
+        mov [buffer4],word 2613
         mov r8,[buffer1]
         mov r9,[buffer2]
         mov r10,[buffer3]
@@ -1419,11 +1436,77 @@ _start:
 .gano:
         print msm_gane1,tamano_msm_gane1            	;despliega la pantalla del gane y espera la tecla X para salir
         ;call Pausa
-        jmp .if
+       	mov rax,80000000H
+	cpuid
+	mov r8,80000004H
+	cmp rax,r8
+	;jb _default
+
+	; obtienen los datos a imprimir 
+
+	mov rax,80000002H
+	cpuid
+	mov [var],rax
+	mov [var + 0x4],rbx; informacion de procesador
+	mov [var + 0x8],rcx; identidicacion de la familia
+	mov [var + 0xc],rdx; ; tipo de procesador
+
+	mov rax,80000003H
+	cpuid
+	mov [var + 0x10],rax
+	mov [var + 0x14],rbx; informacion de procesador
+	mov [var + 0x18],rcx ;identidicacion de la familia
+	mov [var + 0x1c],rdx; tipo de procesador
+
+	mov rax,80000004H
+	cpuid
+	mov [var + 0x20],rax
+	mov [var + 0x24],rbx; informacion de procesador
+	mov [var + 0x28],rcx; identidicacion de la familia
+	mov [var + 0x2c],rdx; tipo de procesador
+
+	; se imprime los datos del cpu
+	irs 2610,2615,2608,2608
+
+	print var,50
+	print mns2,tamano_mns2
+	 jmp .if
 .perdio:
         print msm_pierde1,tamano_msm_pierde1            	;despliega la pantalla de perdida y espera la tecla X para salir
         ;call Pausa
-        jmp .if
+       	mov rax,80000000H
+	cpuid
+	mov r8,80000004H
+	cmp rax,r8
+	;jb _default
+	; obtienen los datos a imprimir 
+
+	mov rax,80000002H
+	cpuid
+	mov [var],rax
+	mov [var + 0x4],rbx; informacion de procesador
+	mov [var + 0x8],rcx; identidicacion de la familia
+	mov [var + 0xc],rdx; ; tipo de procesador
+
+	mov rax,80000003H
+	cpuid
+	mov [var + 0x10],rax
+	mov [var + 0x14],rbx; informacion de procesador
+	mov [var + 0x18],rcx ;identidicacion de la familia
+	mov [var + 0x1c],rdx; tipo de procesador
+
+	mov rax,80000004H
+	cpuid
+	mov [var + 0x20],rax
+	mov [var + 0x24],rbx; informacion de procesador
+	mov [var + 0x28],rcx; identidicacion de la familia
+	mov [var + 0x2c],rdx; tipo de procesador
+
+	; se imprime los datos del cpu
+	irs 2610,2615,2608,2608
+	print var,50
+	print mns2,tamano_mns2
+	jmp .if
 .if:
         mov word [let],1                                ;Limpia variable let
         in_teclado let,1                                ;Copia, de ser posible, la tecla que se este presionando en [let]
@@ -1432,7 +1515,7 @@ _start:
 	cmp word [let],115                              ;De no ser "S" el juego sigue en pausa
         je  .restart
         jmp .if
-        
+
 ;.creditos:
 ;        print msm_creditos,tamano_msm_creditos
 ;        call .pausa
@@ -1445,5 +1528,7 @@ _start:
 	mov rax,60
 	mov rdi,0
 	syscall
+
+
 
 
