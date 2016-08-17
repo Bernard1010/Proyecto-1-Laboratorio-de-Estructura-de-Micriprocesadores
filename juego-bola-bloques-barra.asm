@@ -673,7 +673,7 @@ segment .data
 	tamano_msm_bienvenida: equ $-msm_bienvenida
 
         ;Mensaje de Salida con informacion del grupo y sistema
-	msm_creditos: db 0x1b,"[46;30m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[9;15f","Estudiantes",0x1b,"[11;21f","Felipe Herrero",0x1b,"[12;21f","Bernardo Rodriguez",0x1b,"[13;21f","Sergio Gonzales",0x1b,"[14;21f","Alejandro Murillo"
+	msm_creditos: db 0x1b,"[46;30m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[5;10f","Gracias por Jugar Micronoid",0x1b,"[9;10f","Estudiantes",0x1b,"[11;13f","Felipe Herrero     201218785",0x1b,"[12;13f","Bernardo Rodríguez 2013015419",0x1b,"[13;13f","Sergio Gonzáles    201218363",0x1b,"[14;13f","Alejandro Murillo  200016618",0x1b,"[17;15f","Presione X para terminar"
 	tamano_msm_creditos: equ $-msm_creditos
 
 	;Instrucciones del juego
@@ -1435,83 +1435,15 @@ _start:
         jmp .sube
 .gano:
         print msm_gane1,tamano_msm_gane1            	;despliega la pantalla del gane y espera la tecla X para salir
-        ;call Pausa
-       	mov rax,80000000H
-	cpuid
-	mov r8,80000004H
-	cmp rax,r8
-	;jb _default
-
-	; obtienen los datos a imprimir 
-
-	mov rax,80000002H
-	cpuid
-	mov [var],rax
-	mov [var + 0x4],rbx; informacion de procesador
-	mov [var + 0x8],rcx; identidicacion de la familia
-	mov [var + 0xc],rdx; ; tipo de procesador
-
-	mov rax,80000003H
-	cpuid
-	mov [var + 0x10],rax
-	mov [var + 0x14],rbx; informacion de procesador
-	mov [var + 0x18],rcx ;identidicacion de la familia
-	mov [var + 0x1c],rdx; tipo de procesador
-
-	mov rax,80000004H
-	cpuid
-	mov [var + 0x20],rax
-	mov [var + 0x24],rbx; informacion de procesador
-	mov [var + 0x28],rcx; identidicacion de la familia
-	mov [var + 0x2c],rdx; tipo de procesador
-
-	; se imprime los datos del cpu
-	irs 2610,2615,2608,2608
-
-	print var,50
-	print mns2,tamano_mns2
-	 jmp .if
+        jmp .if
 .perdio:
         print msm_pierde1,tamano_msm_pierde1            	;despliega la pantalla de perdida y espera la tecla X para salir
-        ;call Pausa
-       	;mov rax,80000000H
-	;cpuid
-	;mov r8,80000004H
-	;cmp rax,r8
-	;;jb _default
-	; obtienen los datos a imprimir 
-
-	;mov rax,80000002H
-	;cpuid
-	;mov [var],rax
-	;mov [var + 0x4],rbx; informacion de procesador
-	;mov [var + 0x8],rcx; identidicacion de la familia
-	;mov [var + 0xc],rdx; ; tipo de procesador
-
-	;mov rax,80000003H
-	;cpuid
-	;mov [var + 0x10],rax
-	;mov [var + 0x14],rbx; informacion de procesador
-	;mov [var + 0x18],rcx ;identidicacion de la familia
-	;mov [var + 0x1c],rdx; tipo de procesador
-
-	;mov rax,80000004H
-	;cpuid
-	;mov [var + 0x20],rax
-	;mov [var + 0x24],rbx; informacion de procesador
-	;mov [var + 0x28],rcx; identidicacion de la familia
-	;mov [var + 0x2c],rdx; tipo de procesador
-
-	; se imprime los datos del cpu
-	;irs 2610,2615,2608,2608
-	;print var,50
-	;print mns2,tamano_mns2
-	jmp .if
+       	jmp .if
 .if:
         mov word [let],1                                ;Limpia variable let
         in_teclado let,1                                ;Copia, de ser posible, la tecla que se este presionando en [let]
         cmp word [let],110                              ;Compara si la letra presionada es "N"
-        je  .creditos                                        ;De no ser "N" el juego sigue en pausa y revisa por la siguiente tecla
+        je  .creditos                                   ;De no ser "N" el juego sigue en pausa y revisa por la siguiente tecla
 	cmp word [let],115                              ;De no ser "S" el juego sigue en pausa
         je  .restart
         jmp .if
@@ -1522,7 +1454,6 @@ _start:
 	cpuid
 	mov r8,80000004H
 	cmp rax,r8
-	;jb _default
 	;obtienen los datos a imprimir 
 
 	mov rax,80000002H
