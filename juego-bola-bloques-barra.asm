@@ -673,7 +673,7 @@ segment .data
 	tamano_msm_bienvenida: equ $-msm_bienvenida
 
         ;Mensaje de Salida con informacion del grupo y sistema
-	msm_creditos: db 0x1b,"[46;30m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[5;10f","Gracias por Jugar Micronoid",0x1b,"[9;10f","Estudiantes",0x1b,"[11;13f","Felipe Herrero     201218785",0x1b,"[12;13f","Bernardo Rodríguez 2013015419",0x1b,"[13;13f","Sergio Gonzáles    201218363",0x1b,"[14;13f","Alejandro Murillo  200016618",0x1b,"[17;15f","Presione X para terminar"
+	msm_creditos: db 0x1b,"[46;30m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[5;10f","Gracias por Jugar Micronoid",0x1b,"[9;10f","Estudiantes",0x1b,"[11;13f","Felipe Herrero     201218785",0x1b,"[12;13f","Bernardo Rodríguez 2013015419",0x1b,"[13;13f","Sergio Gonzáles    201218363",0x1b,"[14;13f","Alejandro Murillo  200016618",0x1b,"[22;1f","Presione X para terminar",0x1b,"[17;15f","Vendor: AuthenticAMD      CPU family: 21",0x1b,"[23;1f","Model name: AMD A10-5750 APU with Radeon(tm) HD Graphics"
 	tamano_msm_creditos: equ $-msm_creditos
 
 	;Instrucciones del juego
