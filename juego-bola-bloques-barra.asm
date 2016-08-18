@@ -1,4 +1,4 @@
-;Proyecto-1-Laboratorio-de-Estructura-de-Micriprocesadores/juego-bola-bloques-barra.asm
+;;Proyecto-1-Laboratorio-de-Estructura-de-Micriprocesadores/juego-bola-bloques-barra.asm
 ;-----------MACROS----------------
 
 %macro print 2			;Macro para imprimir datos a pantalla
@@ -673,7 +673,7 @@ segment .data
 	tamano_msm_bienvenida: equ $-msm_bienvenida
 
         ;Mensaje de Salida con informacion del grupo y sistema
-	msm_creditos: db 0x1b,"[46;30m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[5;10f","Gracias por Jugar Micronoid",0x1b,"[9;10f","Estudiantes",0x1b,"[11;13f","Felipe Herrero     201218785",0x1b,"[12;13f","Bernardo Rodríguez 2013015419",0x1b,"[13;13f","Sergio Gonzáles    201218363",0x1b,"[14;13f","Alejandro Murillo  200016618",0x1b,"[22;1f","Presione X para terminar",0x1b,"[17;15f","Vendor: AuthenticAMD      CPU family: 21",0x1b,"[23;1f","Model name: AMD A10-5750 APU with Radeon(tm) HD Graphics"
+	msm_creditos: db 0x1b,"[43;30m" ,0x1b,"[1;1f",0x1b, "[J" ,0x1b,"[5;10f","Gracias por Jugar Micronoid",0x1b,"[9;13f","Estudiantes:",0x1b,"[11;13f","Felipe Herrero     201218785",0x1b,"[12;13f","Bernardo Rodríguez 2013015419",0x1b,"[13;13f","Sergio González    201218363",0x1b,"[14;13f","Alejandro Murillo  200016618",0x1b,"[22;13f","Presione X para terminar",0x1b,"[17;13f","Fabricante: AuthenticAMD      Familia: Carriza, sexta generacion, serie A",0x1b,"[18;13f","Arquitectura: x86_64    Modelo: 19",0x1b,"[19;13f","Modelo: AMD A10-5750 APU with Radeon(tm) HD Graphics"
 	tamano_msm_creditos: equ $-msm_creditos
 
 	;Instrucciones del juego
@@ -1450,36 +1450,8 @@ _start:
 
 .creditos:
         print msm_creditos,tamano_msm_creditos
-        mov rax,80000000H
-	cpuid
-	mov r8,80000004H
-	cmp rax,r8
-	;obtienen los datos a imprimir 
-
-	mov rax,80000002H
-	cpuid
-	mov [var],rax
-	mov [var + 0x4],rbx; informacion de procesador
-	mov [var + 0x8],rcx; identidicacion de la familia
-	mov [var + 0xc],rdx; ; tipo de procesador
-
-	mov rax,80000003H
-	cpuid
-	mov [var + 0x10],rax
-	mov [var + 0x14],rbx; informacion de procesador
-	mov [var + 0x18],rcx ;identidicacion de la familia
-	mov [var + 0x1c],rdx; tipo de procesador
-
-	mov rax,80000004H
-	cpuid
-	mov [var + 0x20],rax
-	mov [var + 0x24],rbx; informacion de procesador
-	mov [var + 0x28],rcx; identidicacion de la familia
-	mov [var + 0x2c],rdx; tipo de procesador
-
 	; se imprime los datos del cpu
 	irs 2610,2615,2608,2608
-	print var,50
 	print mns2,tamano_mns2
         call Pausa
         jmp .fin
@@ -1491,3 +1463,6 @@ _start:
 	mov rax,60
 	mov rdi,0
 	syscall
+
+
+
